@@ -28,13 +28,13 @@ class GlossaryManager:
         }
         self.current_language = "en"  # Default to Japanese
     
-    def load_glossary(self, file_path, language_code):
+    def load_glossary(self, file_path, language_code="en"):
         """
         Load glossary data from a CSV file for a specific language.
         
         Args:
             file_path: Path to the glossary CSV file
-            language_code: Two-letter language code (ja, ko, zh)
+            language_code: Two-letter language code (en, ko, zh)
             
         Returns:
             bool: True if loading was successful, False otherwise
@@ -56,32 +56,85 @@ class GlossaryManager:
                     header = next(csv_reader)
                     
                     # Normalize header names
-                    header = [h.strip().lower() for h in header]
+                    header = [h.strip() for h in header]
                     
-                    # Check if required columns exist
-                    if 'term' in header and 'translation' in header:
-                        # Get column indices
-                        term_idx = header.index('term')
-                        translation_idx = header.index('translation')
-                        notes_idx = header.index('notes') if 'notes' in header else None
-                        
-                        # Mark as valid file
-                        valid_file = True
-                        
-                        # Process data rows
-                        for row in csv_reader:
-                            if len(row) > max(term_idx, translation_idx):
-                                term = row[term_idx].strip().lower()
-                                translation = row[translation_idx].strip()
-                                notes = row[notes_idx].strip() if notes_idx is not None and len(row) > notes_idx else ""
-                                
-                                if term and translation:  # Ensure non-empty values
-                                    self.glossaries[language_code]["data"][term] = {
-                                        "translation": translation,
-                                        "notes": notes
-                                    }
-                                    term_count += 1
-                
+                    # Store header information for display purposes
+                    self.glossaries[language_code]["header"] = header
+                    
+                    # Define column indices based on language code
+                    if language_code == "en":
+                        # For English glossary with standard format
+                        normalized_header = [h.lower() for h in header]
+                        if "term" in normalized_header and "translation" in normalized_header:
+                            term_idx = normalized_header.index("term")
+                            translation_idx = normalized_header.index("translation")
+                            notes_idx = normalized_header.index("notes") if "notes" in normalized_header else None
+                            valid_file = True
+                            
+                            # Process data rows
+                            for row in csv_reader:
+                                if len(row) > max(term_idx, translation_idx):
+                                    term = row[term_idx].strip().lower()
+                                    translation = row[translation_idx].strip()
+                                    notes = row[notes_idx].strip() if notes_idx is not None and len(row) > notes_idx else ""
+                                    
+                                    if term and translation:  # Ensure non-empty values
+                                        self.glossaries[language_code]["data"][term] = {
+                                            "translation": translation,
+                                            "notes": notes
+                                        }
+                                        term_count += 1
+                    
+                    elif language_code == "ko":
+                        # For Korean glossary
+                        if "ハングル" in header and "日本語" in header:
+                            term_idx = header.index("ハングル")
+                            translation_idx = header.index("日本語")
+                            valid_file = True
+                            
+                            # Process data rows
+                            for row in csv_reader:
+                                if len(row) > max(term_idx, translation_idx):
+                                    term = row[term_idx].strip().lower()
+                                    translation = row[translation_idx].strip()
+                                    
+                                    # Store all columns
+                                    column_data = {}
+                                    for i, col_name in enumerate(header):
+                                        if i < len(row):
+                                            column_data[col_name] = row[i].strip()
+                                        else:
+                                            column_data[col_name] = ""
+                                    
+                                    if term and translation:  # Ensure non-empty values
+                                        self.glossaries[language_code]["data"][term] = column_data
+                                        term_count += 1
+                                        
+                    elif language_code == "zh":
+                        # For Chinese glossary
+                        if "中文" in header and "日本語" in header:
+                            term_idx = header.index("中文")
+                            translation_idx = header.index("日本語")
+                            valid_file = True
+                            
+                            # Process data rows
+                            for row in csv_reader:
+                                if len(row) > max(term_idx, translation_idx):
+                                    term = row[term_idx].strip().lower()
+                                    translation = row[translation_idx].strip()
+                                    
+                                    # Store all columns
+                                    column_data = {}
+                                    for i, col_name in enumerate(header):
+                                        if i < len(row):
+                                            column_data[col_name] = row[i].strip()
+                                        else:
+                                            column_data[col_name] = ""
+                                    
+                                    if term and translation:  # Ensure non-empty values
+                                        self.glossaries[language_code]["data"][term] = column_data
+                                        term_count += 1
+                                    
                 except StopIteration:
                     logger.error("CSV file is empty or malformed")
                     return False
@@ -101,6 +154,59 @@ class GlossaryManager:
         except Exception as e:
             logger.error(f"Error loading glossary file {file_path}: {str(e)}")
             return False
+
+    def _get_column_mapping(self, language_code, header):
+        """
+        Get column mapping based on language code and header.
+        
+        Args:
+            language_code: Two-letter language code
+            header: List of column headers
+        
+        Returns:
+            Dictionary mapping standard field names to column indices
+        """
+        mapping = {}
+        
+        if language_code == "en":
+            # For English glossary with standard format
+            if "term" in [h.lower() for h in header] and "translation" in [h.lower() for h in header]:
+                mapping["term"] = [h.lower() for h in header].index("term")
+                mapping["translation"] = [h.lower() for h in header].index("translation")
+                if "notes" in [h.lower() for h in header]:
+                    mapping["notes"] = [h.lower() for h in header].index("notes")
+        
+        elif language_code == "ko":
+            # For Korean glossary
+            if "ハングル" in header and "日本語" in header:
+                mapping["term"] = header.index("ハングル")
+                mapping["translation"] = header.index("日本語")
+                # Map additional fields
+                for i, field in enumerate(header):
+                    if field not in ["ハングル", "日本語"]:
+                        mapping[field] = i
+                # Use 英語 as notes if available
+                if "英語（ある場合）" in header:
+                    mapping["notes"] = header.index("英語（ある場合）")
+                elif "メモ" in header:
+                    mapping["notes"] = header.index("メモ")
+        
+        elif language_code == "zh":
+            # For Chinese glossary
+            if "中文" in header and "日本語" in header:
+                mapping["term"] = header.index("中文")
+                mapping["translation"] = header.index("日本語")
+                # Map additional fields
+                for i, field in enumerate(header):
+                    if field not in ["中文", "日本語"]:
+                        mapping[field] = i
+                # Use 英語 as notes if available
+                if "英語（ある場合）" in header:
+                    mapping["notes"] = header.index("英語（ある場合）")
+                elif "メモ" in header:
+                    mapping["notes"] = header.index("メモ")
+        
+        return mapping
     
     def set_current_language(self, language_code):
         """Set the current language for term lookups."""
@@ -160,8 +266,8 @@ class GlossaryManager:
                         "notes": glossary_data[term]["notes"]
                     })
         
-        elif self.current_language == "ko":
-            # For Korean, use both word boundary and direct matching
+        elif self.current_language in ["ko", "zh"]:
+            # For Korean/Chinese, use both word boundary and direct matching
             words = text_lower.split()
             clean_words = [word.strip(".,!?:;\"'()[]{}<>") for word in words]
             
@@ -169,32 +275,16 @@ class GlossaryManager:
             for word in clean_words:
                 if word in glossary_data and word not in found_terms:
                     found_terms.add(word)
-                    results.append({
-                        "term": word,
-                        "translation": glossary_data[word]["translation"],
-                        "notes": glossary_data[word]["notes"]
-                    })
+                    term_data = glossary_data[word]
+                    # For Korean/Chinese glossaries, we store all columns
+                    # Just create the exact format we return
+                    results.append(term_data)
             
             # Also check all terms directly for multi-word or non-spaced terms
             for term in glossary_data:
                 if term in text_lower and term not in found_terms:
                     found_terms.add(term)
-                    results.append({
-                        "term": term,
-                        "translation": glossary_data[term]["translation"],
-                        "notes": glossary_data[term]["notes"]
-                    })
-        
-        else:  # Chinese or other non-space-delimited languages
-            # For Chinese, check each term in the glossary against the text
-            for term in glossary_data:
-                if term in text_lower and term not in found_terms:
-                    found_terms.add(term)
-                    results.append({
-                        "term": term,
-                        "translation": glossary_data[term]["translation"],
-                        "notes": glossary_data[term]["notes"]
-                    })
+                    results.append(glossary_data[term])
         
         return results
 # Basic test function if the module is run directly

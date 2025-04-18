@@ -354,38 +354,121 @@ class MainWindow(QMainWindow):
     
     def update_results_table(self):
         """Update the results table with matched terms."""
+        # Get current language
+        language_code = self.language_combo.itemData(self.language_combo.currentIndex())
+        
+        # Get header information if available
+        header = self.glossary_manager.glossaries[language_code].get("header", [])
+        
         # Set the number of rows based on matches
         self.results_table.setRowCount(len(self.matches))
         
-        # Fill the table with data
-        for row, match in enumerate(self.matches):
-            # Term
-            term_item = QTableWidgetItem(match["term"])
-            term_item.setFlags(term_item.flags() & ~Qt.ItemIsEditable)  # Make read-only
-            self.results_table.setItem(row, 0, term_item)
+        # Adjust table based on language
+        if language_code == "en":
+            # Standard 3-column format for English
+            self.results_table.setColumnCount(3)
+            self.results_table.setHorizontalHeaderLabels(["用語", "翻訳", "注釈"])
             
-            # Translation
-            translation_item = QTableWidgetItem(match["translation"])
-            translation_item.setFlags(translation_item.flags() & ~Qt.ItemIsEditable)
-            self.results_table.setItem(row, 1, translation_item)
-            
-            # Notes
-            notes_item = QTableWidgetItem(match["notes"])
-            notes_item.setFlags(notes_item.flags() & ~Qt.ItemIsEditable)
-            self.results_table.setItem(row, 2, notes_item)
-            
+            # Fill the table with data
+            for row, match in enumerate(self.matches):
+                # Term
+                term_item = QTableWidgetItem(match["term"])
+                term_item.setFlags(term_item.flags() & ~Qt.ItemIsEditable)  # Make read-only
+                self.results_table.setItem(row, 0, term_item)
+                
+                # Translation
+                translation_item = QTableWidgetItem(match["translation"])
+                translation_item.setFlags(translation_item.flags() & ~Qt.ItemIsEditable)
+                self.results_table.setItem(row, 1, translation_item)
+                
+                # Notes
+                notes_item = QTableWidgetItem(match["notes"])
+                notes_item.setFlags(notes_item.flags() & ~Qt.ItemIsEditable)
+                self.results_table.setItem(row, 2, notes_item)
         
+        elif language_code in ["ko", "zh"]:
+            # Multi-column format for Korean/Chinese
+            if header:
+                # Set columns based on the header
+                self.results_table.setColumnCount(len(header))
+                self.results_table.setHorizontalHeaderLabels(header)
+                
+                # Fill the table with data
+                for row, match in enumerate(self.matches):
+                    for col, column_name in enumerate(header):
+                        if column_name in match:
+                            item = QTableWidgetItem(match[column_name])
+                            item.setFlags(item.flags() & ~Qt.ItemIsEditable)  # Make read-only
+                            self.results_table.setItem(row, col, item)
+            else:
+                # Fallback to simpler display if no header info
+                self.results_table.setColumnCount(3)
+                self.results_table.setHorizontalHeaderLabels(["用語", "翻訳", "注釈"])
+                
+                # Just display basic info
+                for row, match in enumerate(self.matches):
+                    # For Korean glossary
+                    if language_code == "ko":
+                        term = match.get("ハングル", "")
+                        translation = match.get("日本語", "")
+                        notes = match.get("メモ", "")
+                    # For Chinese glossary
+                    else:
+                        term = match.get("中文", "")
+                        translation = match.get("日本語", "")
+                        notes = match.get("メモ", "")
+                    
+                    # Set table items
+                    self.results_table.setItem(row, 0, QTableWidgetItem(term))
+                    self.results_table.setItem(row, 1, QTableWidgetItem(translation))
+                    self.results_table.setItem(row, 2, QTableWidgetItem(notes))
+        
+        # Resize columns to fit content
+        for i in range(self.results_table.columnCount() - 1):
+            self.results_table.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeToContents)
+        # Make the last column stretch
+        self.results_table.horizontalHeader().setSectionResizeMode(
+            self.results_table.columnCount() - 1, QHeaderView.Stretch)
+
+    def setup_language_specific_table(self, language_code, header):
+        """Set up the table columns for a specific language."""
+        if not header:
+            # Fallback to basic 3-column layout
+            self.results_table.setColumnCount(3)
+            self.results_table.setHorizontalHeaderLabels(["用語", "翻訳", "注釈"])
+            return
+        
+        # Set the number of columns based on the header
+        self.results_table.setColumnCount(len(header))
+        
+        # Set column headers
+        self.results_table.setHorizontalHeaderLabels(header)
+        
+        # Adjust column widths
+        for i in range(len(header)):
+            self.results_table.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeToContents)
+        
+        # Make the last column stretch
+        self.results_table.horizontalHeader().setSectionResizeMode(len(header) - 1, QHeaderView.Stretch)
+            
     def copy_translation(self, index):
         """Copy the translation to clipboard when a row is double-clicked."""
         row = index.row()
-        translation = self.results_table.item(row, 1).text()
+        column = index.column()
         
-        # Copy to clipboard
-        clipboard = QApplication.clipboard()
-        clipboard.setText(translation)
+        # Get current language
+        language_code = self.language_combo.itemData(self.language_combo.currentIndex())
         
-        # Show brief status message
-        self.statusBar().showMessage(f"クリップボードに保存しました： {translation}", 3000)
+        # Get the text from the cell
+        item = self.results_table.item(row, column)
+        if item:
+            text = item.text()
+            # Copy to clipboard
+            clipboard = QApplication.clipboard()
+            clipboard.setText(text)
+            
+            # Show brief status message
+            self.statusBar().showMessage(f"クリップボードに保存しました： {text}", 3000)        
     
     def show_about_dialog(self):
         """Show the about dialog."""
