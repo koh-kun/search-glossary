@@ -20,6 +20,21 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QFont, QClipboard, QColor
 from PySide6.QtCore import Qt, QSize
 
+# Import our custom text edit component
+try:
+    # Try relative import first (when run as a package)
+    from core.text_edit import FormattedTextEdit
+except ImportError:
+    try:
+        # Try absolute import (when run as project)
+        from src.core.text_edit import FormattedTextEdit
+    except ImportError:
+        # Adjust path for direct script execution
+        import sys
+        import os
+        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        from core.text_edit import FormattedTextEdit
+
 # Import our glossary manager
 try:
     # Try relative import first (when run as a package)
@@ -146,6 +161,9 @@ class MainWindow(QMainWindow):
         
         # Initialize UI components
         self.init_ui()
+
+        # Set initial dark mode state for the text editor
+        self.input_text.set_dark_mode(self.is_dark)
         
         # Initialize glossary manager
         self.glossary_manager = GlossaryManager()
@@ -163,7 +181,7 @@ class MainWindow(QMainWindow):
         
         # Input text area
         input_label = QLabel("入力テキスト:")
-        self.input_text = QTextEdit()
+        self.input_text = FormattedTextEdit()
         self.input_text.setPlaceholderText("ここに英語テキストを貼り付けてください...")
         
         # Language selection area
@@ -274,8 +292,11 @@ class MainWindow(QMainWindow):
             
         if self.is_dark:
             self.setStyleSheet(get_dark_stylesheet())
+            self.input_text.set_dark_mode(True)  # Update text edit theme
         else:
-            self.setStyleSheet(get_light_stylesheet())    
+            self.setStyleSheet(get_light_stylesheet())
+            self.input_text.set_dark_mode(False)  # Update text edit theme
+
     def create_menus(self):
         """Create application menus."""
         # File menu

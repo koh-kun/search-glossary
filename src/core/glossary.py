@@ -239,8 +239,10 @@ class GlossaryManager:
         results = []
         
         if self.current_language == "en":
+            # Define terms that require exact case matching
+            case_sensitive_terms = ["AND", "WHO"]
+            
             # For English, we want to ensure we match whole words only
-            # First, tokenize the text into words
             import re
             # This regex splits on word boundaries and keeps punctuation separate
             words = re.findall(r'\b\w+\b', text_lower)
@@ -248,6 +250,10 @@ class GlossaryManager:
             # Check each word against the glossary
             for word in words:
                 if word in glossary_data and word not in found_terms:
+                    # Skip if this is a lowercase version of a case-sensitive term
+                    if word.upper() in case_sensitive_terms:
+                        continue
+                    
                     found_terms.add(word)
                     results.append({
                         "term": word,
@@ -265,9 +271,25 @@ class GlossaryManager:
                         "translation": glossary_data[term]["translation"],
                         "notes": glossary_data[term]["notes"]
                     })
+            
+            # Check for exact case-sensitive matches for special terms
+            for special_term in case_sensitive_terms:
+                # Convert to lowercase for dictionary lookup
+                term_lower = special_term.lower()
+                # Only proceed if the term exists in our glossary
+                if term_lower in glossary_data:
+                    # Find exact case matches in the original text
+                    exact_matches = re.findall(r'\b' + re.escape(special_term) + r'\b', text)
+                    if exact_matches and term_lower not in found_terms:
+                        found_terms.add(term_lower)
+                        results.append({
+                            "term": special_term,  # Use the uppercase version for display
+                            "translation": glossary_data[term_lower]["translation"],
+                            "notes": glossary_data[term_lower]["notes"]
+                        })
         
-        elif self.current_language in ["ko", "zh"]:
-            # For Korean/Chinese, use both word boundary and direct matching
+        elif self.current_language == "ko":
+            # For Korean, use both word boundary and direct matching
             words = text_lower.split()
             clean_words = [word.strip(".,!?:;\"'()[]{}<>") for word in words]
             
@@ -275,16 +297,32 @@ class GlossaryManager:
             for word in clean_words:
                 if word in glossary_data and word not in found_terms:
                     found_terms.add(word)
-                    term_data = glossary_data[word]
-                    # For Korean/Chinese glossaries, we store all columns
-                    # Just create the exact format we return
-                    results.append(term_data)
+                    results.append({
+                        "term": word,
+                        "translation": glossary_data[word]["translation"],
+                        "notes": glossary_data[word]["notes"]
+                    })
             
             # Also check all terms directly for multi-word or non-spaced terms
             for term in glossary_data:
                 if term in text_lower and term not in found_terms:
                     found_terms.add(term)
-                    results.append(glossary_data[term])
+                    results.append({
+                        "term": term,
+                        "translation": glossary_data[term]["translation"],
+                        "notes": glossary_data[term]["notes"]
+                    })
+        
+        else:  # Chinese or other non-space-delimited languages
+            # For Chinese, check each term in the glossary against the text
+            for term in glossary_data:
+                if term in text_lower and term not in found_terms:
+                    found_terms.add(term)
+                    results.append({
+                        "term": term,
+                        "translation": glossary_data[term]["translation"],
+                        "notes": glossary_data[term]["notes"]
+                    })
         
         return results
 # Basic test function if the module is run directly
