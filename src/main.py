@@ -316,28 +316,7 @@ class MainWindow(QMainWindow):
         about_action = help_menu.addAction("&About")
         about_action.triggered.connect(self.show_about_dialog)
     
-    def load_default_glossary(self):
-        """Load the default glossary file if available."""
-        # Look for default glossary in several locations
-        possible_paths = [
-            "default_glossary.csv",
-            "resources/default_glossary.csv",
-            os.path.join(os.path.dirname(__file__), "resources/default_glossary.csv"),
-            os.path.join(os.path.dirname(__file__), "../resources/default_glossary.csv")
-        ]
-        
-        for path in possible_paths:
-            if os.path.exists(path):
-                if self.glossary_manager.load_glossary(path):
-                    self.statusBar().showMessage(f"Default glossary loaded: {path}")
-                    
-                    # Update combobox
-                    self.glossary_combo.clear()
-                    self.glossary_combo.addItem(os.path.basename(path))
-                    
-                    return
-        
-        self.statusBar().showMessage("デフォルトの辞書がありません。")
+
     
     def open_text_file(self):
         """Open a text file and load its contents into the input text area."""
@@ -450,28 +429,6 @@ class MainWindow(QMainWindow):
         # Make the last column stretch
         self.results_table.horizontalHeader().setSectionResizeMode(
             self.results_table.columnCount() - 1, QHeaderView.Stretch)
-
-    def setup_language_specific_table(self, language_code, header):
-        """Set up the table columns for a specific language."""
-        if not header:
-            # Fallback to basic 3-column layout
-            self.results_table.setColumnCount(3)
-            self.results_table.setHorizontalHeaderLabels(["用語", "翻訳", "注釈"])
-            return
-        
-        # Set the number of columns based on the header
-        self.results_table.setColumnCount(len(header))
-        
-        # Set column headers
-        self.results_table.setHorizontalHeaderLabels(header)
-        
-        # Adjust column widths
-        for i in range(len(header)):
-            self.results_table.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeToContents)
-        
-        # Make the last column stretch
-        self.results_table.horizontalHeader().setSectionResizeMode(len(header) - 1, QHeaderView.Stretch)
-            
     def copy_translation(self, index):
         """Copy the translation to clipboard when a row is double-clicked."""
         row = index.row()
