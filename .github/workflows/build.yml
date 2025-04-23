@@ -1,39 +1,33 @@
 name: Build Application
-
 on:
   push:
     tags:
-      - 'v*' # Run when a tag is pushed (e.g., v0.9.0)
-  workflow_dispatch: # Allow manual triggering
+      - 'v*'  # Run when a tag is pushed (e.g., v0.9.0)
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller pillow
           pip install -r requirements.txt
-          
       - name: Build with PyInstaller
         run: |
-          pyinstaller --noconsole --name SearchGlossary src/main.py --add-data "resources/*.csv;resources"
-          
+          pyinstaller --noconsole --name SearchGlossary src/main.py --add-data "resources/*;resources"
       - name: Create ZIP archive
         run: |
           cd dist
           Compress-Archive -Path SearchGlossary -DestinationPath SearchGlossary-Windows.zip
-          
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows-build
           path: dist/SearchGlossary-Windows.zip
@@ -41,30 +35,46 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
-      
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller pillow
           pip install -r requirements.txt
-          
       - name: Build with PyInstaller
         run: |
-          pyinstaller --noconsole --name SearchGlossary src/main.py --add-data "resources/*.csv:resources"
-          
+          pyinstaller --noconsole --name SearchGlossary src/main.py --add-data "resources/*:resources"
       - name: Create ZIP archive
         run: |
           cd dist
           zip -r SearchGlossary-macOS.zip SearchGlossary
-          
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macos-build
           path: dist/SearchGlossary-macOS.zip
+          
+  create-release:
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/windows-build/SearchGlossary-Windows.zip
+            artifacts/macos-build/SearchGlossary-macOS.zip
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
