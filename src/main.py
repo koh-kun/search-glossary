@@ -182,7 +182,7 @@ class MainWindow(QMainWindow):
         # Input text area
         input_label = QLabel("入力テキスト:")
         self.input_text = FormattedTextEdit()
-        self.input_text.setPlaceholderText("ここに英語テキストを貼り付けてください...")
+        self.input_text.setPlaceholderText("ここに原文テキストを貼り付けてください...")
         
         # Language selection area
         glossary_layout = QHBoxLayout()
