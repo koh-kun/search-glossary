@@ -68,21 +68,24 @@ class GlossaryManager:
                         if "term" in normalized_header and "translation" in normalized_header:
                             term_idx = normalized_header.index("term")
                             translation_idx = normalized_header.index("translation")
-                            notes_idx = normalized_header.index("notes") if "notes" in normalized_header else None
                             valid_file = True
                             
                             # Process data rows
                             for row in csv_reader:
-                                if len(row) > max(term_idx, translation_idx):
+                                if len(row) > term_idx:
                                     term = row[term_idx].strip().lower()
-                                    translation = row[translation_idx].strip()
-                                    notes = row[notes_idx].strip() if notes_idx is not None and len(row) > notes_idx else ""
+                                    translation = row[translation_idx].strip() if translation_idx < len(row) else ""
+                                    
+                                    # Store all columns (same as Korean/Chinese)
+                                    column_data = {}
+                                    for i, col_name in enumerate(header):
+                                        if i < len(row):
+                                            column_data[col_name] = row[i].strip()
+                                        else:
+                                            column_data[col_name] = ""
                                     
                                     if term and translation:  # Ensure non-empty values
-                                        self.glossaries[language_code]["data"][term] = {
-                                            "translation": translation,
-                                            "notes": notes
-                                        }
+                                        self.glossaries[language_code]["data"][term] = column_data
                                         term_count += 1
                     
                     elif language_code == "ko":
@@ -255,22 +258,14 @@ class GlossaryManager:
                         continue
                     
                     found_terms.add(word)
-                    results.append({
-                        "term": word,
-                        "translation": glossary_data[word]["translation"],
-                        "notes": glossary_data[word]["notes"]
-                    })
+                    results.append(glossary_data[word])  # ← SIMPLIFIED!
                     
             # Also check for multi-word terms
             for term in glossary_data:
                 # Skip single words as we've already checked them
                 if " " in term and term in text_lower and term not in found_terms:
                     found_terms.add(term)
-                    results.append({
-                        "term": term,
-                        "translation": glossary_data[term]["translation"],
-                        "notes": glossary_data[term]["notes"]
-                    })
+                    results.append(glossary_data[term])  # ← SIMPLIFIED!
             
             # Check for exact case-sensitive matches for special terms
             for special_term in case_sensitive_terms:
@@ -282,11 +277,7 @@ class GlossaryManager:
                     exact_matches = re.findall(r'\b' + re.escape(special_term) + r'\b', text)
                     if exact_matches and term_lower not in found_terms:
                         found_terms.add(term_lower)
-                        results.append({
-                            "term": special_term,  # Use the uppercase version for display
-                            "translation": glossary_data[term_lower]["translation"],
-                            "notes": glossary_data[term_lower]["notes"]
-                        })
+                        results.append(glossary_data[term_lower])  # ← SIMPLIFIED!
         
         elif self.current_language == "ko":
             # For Korean, use both word boundary and direct matching
@@ -297,32 +288,20 @@ class GlossaryManager:
             for word in clean_words:
                 if word in glossary_data and word not in found_terms:
                     found_terms.add(word)
-                    results.append({
-                        "term": word,
-                        "translation": glossary_data[word]["translation"],
-                        "notes": glossary_data[word]["notes"]
-                    })
+                    results.append(glossary_data[word])  # ← SIMPLIFIED!
             
             # Also check all terms directly for multi-word or non-spaced terms
             for term in glossary_data:
                 if term in text_lower and term not in found_terms:
                     found_terms.add(term)
-                    results.append({
-                        "term": term,
-                        "translation": glossary_data[term]["translation"],
-                        "notes": glossary_data[term]["notes"]
-                    })
+                    results.append(glossary_data[term])  # ← SIMPLIFIED!
         
         else:  # Chinese or other non-space-delimited languages
             # For Chinese, check each term in the glossary against the text
             for term in glossary_data:
                 if term in text_lower and term not in found_terms:
                     found_terms.add(term)
-                    results.append({
-                        "term": term,
-                        "translation": glossary_data[term]["translation"],
-                        "notes": glossary_data[term]["notes"]
-                    })
+                    results.append(glossary_data[term])  # ← SIMPLIFIED!
         
         return results
 # Basic test function if the module is run directly
