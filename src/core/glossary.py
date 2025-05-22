@@ -240,7 +240,7 @@ class GlossaryManager:
         
         if self.current_language == "en":
             # Define terms that require exact case matching
-            case_sensitive_terms = ["AND", "WHO"]
+            case_sensitive_terms = ["AND", "WHO", "JUST", "GAP"]
             
             # For English, we want to ensure we match whole words only
             import re
