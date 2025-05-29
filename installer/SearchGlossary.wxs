@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" 
+           Name="SearchGlossary" 
+           Language="1033" 
+           Version="1.0.0" 
+           Manufacturer="Algolynx Inc." 
+           UpgradeCode="{97987d4a-839a-4b5e-838a-f7dcc77d8b73}">
+    
+    <Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perUser" 
+             Description="Search Glossary - Terminology Helper Application" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="SearchGlossary" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ShortcutComponents" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="INSTALLFOLDER" Name="SearchGlossary" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="SearchGlossary"/>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- Main executable -->
+      <Component Id="MainExecutable" Guid="{60acc920-d0fd-4afb-b614-152f5b0b9373}">
+        <File Id="SearchGlossaryEXE" 
+              Source="../dist/SearchGlossary.exe" 
+              KeyPath="yes" />
+      </Component>
+      
+      <!-- CSV files -->
+      <Component Id="CSVFiles" Guid="{0632ffed-3045-4f38-9b06-0d8ddc9e7800}">
+        <File Id="JaEnGlossary" Source="../resources/Ja_En_Glossary.csv" />
+        <File Id="JaKoGlossary" Source="../resources/Ja_Ko_Glossary.csv" />
+        <File Id="JaZhGlossary" Source="../resources/Ja_Zh_Glossary.csv" />
+      </Component>
+    </ComponentGroup>
+    
+    <!-- Start menu shortcut - separate component group -->
+    <ComponentGroup Id="ShortcutComponents" Directory="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{f89833f8-755e-4db2-be8f-dc25a9926dad}">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="SearchGlossary"
+                  Description="Search Glossary - Terminology Helper"
+                  Target="[#SearchGlossaryEXE]"
+                  WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Algolynx Inc\SearchGlossary" 
+                       Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
