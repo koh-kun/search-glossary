@@ -58,7 +58,7 @@ def is_dark_theme(app):
     return app.palette().color(QPalette.Window).lightness() < 128
 
 # Application version
-APP_VERSION = "0.1.0"
+APP_VERSION = "1.0.0"
 
 def get_light_stylesheet():
     """Return stylesheet for light theme."""
@@ -147,7 +147,7 @@ class MainWindow(QMainWindow):
         super().__init__()
     
         # Set window properties
-        self.setWindowTitle(f"辞書検索ツール v{APP_VERSION}")
+        self.setWindowTitle(f"SearchGlossary v{APP_VERSION}")
         self.setMinimumSize(800, 600)
         
         # Detect if we're using a dark theme
