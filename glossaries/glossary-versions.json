@@ -1,0 +1,17 @@
+{
+  "Ja_En_Glossary.csv": {
+    "version": "1.0.0",
+    "last_updated": "2025-05-30",
+    "download_url": "https://raw.githubusercontent.com/koh-kun/search-glossary/main/glossaries/Ja_En_Glossary.csv"
+  },
+  "Ja_Ko_Glossary.csv": {
+    "version": "1.0.0", 
+    "last_updated": "2025-05-30",
+    "download_url": "https://raw.githubusercontent.com/koh-kun/search-glossary/main/glossaries/Ja_Ko_Glossary.csv"
+  },
+  "Ja_Zh_Glossary.csv": {
+    "version": "1.0.0",
+    "last_updated": "2025-05-30", 
+    "download_url": "https://raw.githubusercontent.com/koh-kun/search-glossary/main/glossaries/Ja_Zh_Glossary.csv"
+  }
+}
