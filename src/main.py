@@ -250,9 +250,9 @@ class MainWindow(QMainWindow):
         # Define possible locations for glossary files
         base_paths = [
             "",  # Current directory
-            "resources/",
-            os.path.join(os.path.dirname(__file__), "resources/"),
-            os.path.join(os.path.dirname(__file__), "../resources/")
+            "glossaries/",
+            os.path.join(os.path.dirname(__file__), "glossaries/"),
+            os.path.join(os.path.dirname(__file__), "../glossaries/")
         ]
         
         # Language-specific glossary files
