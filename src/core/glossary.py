@@ -22,10 +22,22 @@ class GlossaryManager:
         """Initialize the GlossaryManager with multiple language support."""
         # Dictionary to store glossaries for different languages
         self.glossaries = {
-            "en": {"data": {}, "path": None, "info": {"total_terms": 0, "last_updated": None}},
-            "ko": {"data": {}, "path": None, "info": {"total_terms": 0, "last_updated": None}},
-            "zh": {"data": {}, "path": None, "info": {"total_terms": 0, "last_updated": None}}
-        }
+            "en": {
+                "data": {}, 
+                "path": None, 
+                "info": {"total_terms": 0, "last_updated": None},
+            },
+            "ko": {
+                "data": {}, 
+                "path": None, 
+                "info": {"total_terms": 0, "last_updated": None},
+            },
+            "zh": {
+                "data": {}, 
+                "path": None, 
+                "info": {"total_terms": 0, "last_updated": None},
+            }
+}
         self.current_language = "en"  # Default to Japanese
     
     def load_glossary(self, file_path, language_code="en"):
@@ -148,7 +160,11 @@ class GlossaryManager:
                 self.glossaries[language_code]["info"]["last_updated"] = datetime.now().isoformat()
                 self.glossaries[language_code]["path"] = file_path
                 
-                logger.info(f"Successfully loaded {term_count} terms from {file_path}")
+                # Detect and set version based on file location
+                version = self._detect_file_version(file_path, language_code)
+                self.glossaries[language_code]["version"] = version
+                
+                logger.info(f"Successfully loaded {term_count} terms from {file_path} (v{version})")
                 return True
             else:
                 logger.error(f"Invalid glossary format in {file_path}")
@@ -304,6 +320,39 @@ class GlossaryManager:
                     results.append(glossary_data[term])  # ← SIMPLIFIED!
         
         return results
+    def _detect_file_version(self, file_path, language_code):
+        """Detect version based on file location."""
+        from pathlib import Path
+        
+        # Get user data directory path
+        user_data_dir = self._get_user_data_dir()
+        user_glossaries_dir = user_data_dir / "glossaries"
+        
+        file_path_obj = Path(file_path)
+        
+        print(f"DEBUG: Checking version for {file_path}")
+        print(f"DEBUG: User dir: {user_glossaries_dir}")
+        print(f"DEBUG: File path: {file_path_obj}")
+        
+        # Check if file is in user directory (updated files)
+        if str(user_glossaries_dir) in str(file_path_obj):
+            print(f"DEBUG: File is in user directory - returning v1.0.1")
+            return "1.0.1"
+        else:
+            print(f"DEBUG: File is bundled - returning v1.0.0")
+            return "1.0.0"
+    def _get_user_data_dir(self):
+        """Get platform-specific user data directory."""
+        import platform
+        from pathlib import Path
+        import os
+        
+        system = platform.system()
+        if system == "Windows":
+            app_data = os.environ.get("LOCALAPPDATA", os.path.expanduser("~"))
+            return Path(app_data) / "SearchGlossary"
+        else:
+            return Path.home() / ".local" / "share" / "SearchGlossary"
 # Basic test function if the module is run directly
 if __name__ == "__main__":
     # This will only run if the file is executed directly, not when imported

@@ -5,9 +5,10 @@ Search Glossary App
 A cross-platform desktop application that identifies specialized terminology in pasted text,
 displays translations from a glossary, and allows users to copy translations to the clipboard.
 """
-
+from core.updater import UpdateManager
 import sys
 import os
+from PySide6.QtCore import QTimer
 from pathlib import Path
 
 # Use PySide6 for Qt functionality
@@ -172,6 +173,12 @@ class MainWindow(QMainWindow):
         # Load all language glossaries
         self.load_all_glossaries()
 
+        # Initialize update manager
+        self.update_manager = UpdateManager(APP_VERSION)
+
+        # Delay update check to not interfere with startup UI
+        QTimer.singleShot(2000, self.check_for_updates_on_startup)  # Check after 2 seconds
+
     def init_ui(self):
         """Initialize the user interface components."""
         # Create central widget and main layout
@@ -241,16 +248,26 @@ class MainWindow(QMainWindow):
         language_code = self.language_combo.itemData(index)
         if self.glossary_manager.set_current_language(language_code):
             info = self.glossary_manager.glossaries[language_code]["info"]
-            self.statusBar().showMessage(f"{self.language_combo.currentText()}: {info['total_terms']}用語")
+            file_path = self.glossary_manager.glossaries[language_code]["path"]
+            
+            # Get version for current language
+            version = self.glossary_manager.glossaries[language_code].get("version", "1.0.0")
+            self.statusBar().showMessage(f"{self.language_combo.currentText()}: v{version}")
         else:
             self.statusBar().showMessage("言語の変更に失敗しました")
 
     def load_all_glossaries(self):
         """Load all language glossaries."""
+        # Get user data directory (same logic as updater)
+        user_data_dir = self._get_user_data_dir()
+        user_glossaries_dir = user_data_dir / "glossaries"
+        
         # Define possible locations for glossary files
+        # Check user data directory first, then fall back to bundled files
         base_paths = [
+            str(user_glossaries_dir),  # User data directory (updated files)
             "",  # Current directory
-            "glossaries/",
+            "glossaries/",  # Bundled location
             os.path.join(os.path.dirname(__file__), "glossaries/"),
             os.path.join(os.path.dirname(__file__), "../glossaries/")
         ]
@@ -282,6 +299,19 @@ class MainWindow(QMainWindow):
                 self.statusBar().showMessage("準備完了")
             else:
                 self.statusBar().showMessage("辞書が見つかりませんでした")
+    def _get_user_data_dir(self):
+        """Get platform-specific user data directory."""
+        import platform
+        from pathlib import Path
+        
+        system = platform.system()
+        if system == "Windows":
+            # Use AppData\Local\SearchGlossary
+            app_data = os.environ.get("LOCALAPPDATA", os.path.expanduser("~"))
+            return Path(app_data) / "SearchGlossary"
+        else:
+            # Linux/Mac: Use ~/.local/share/SearchGlossary
+            return Path.home() / ".local" / "share" / "SearchGlossary"
 
     def toggle_theme(self, state=None):
         """Switch between light and dark themes."""
@@ -315,8 +345,7 @@ class MainWindow(QMainWindow):
         
         about_action = help_menu.addAction("&About")
         about_action.triggered.connect(self.show_about_dialog)
-    
-
+ 
     
     def open_text_file(self):
         """Open a text file and load its contents into the input text area."""
@@ -452,13 +481,103 @@ class MainWindow(QMainWindow):
         """Show the about dialog."""
         QMessageBox.about(
             self,
-            "辞書検索ツールについて",
-            f"<h2>辞書検索ツール</h2>"
+            "SearchGlossaryについて",
+            f"<h2>SearchGlossary</h2>"
             f"<p>Version {APP_VERSION}</p>"
             "<p>特定の和訳が登録された業界用語をテキストから検索するツールです。</p>"
             "<p>© 2025 Kohei Takara</p>"
         )
+    def check_for_updates_on_startup(self):
+        """Check for updates when app starts."""
+        print("DEBUG: Starting update check...")
+        try:
+            print("DEBUG: About to check app updates...")
+            app_update_available, app_info = self.update_manager.check_for_app_update()
+            print(f"DEBUG: App update result: {app_update_available}")
+            
+            print("DEBUG: About to check CSV updates...")
+            csv_updates = self.update_manager.check_for_csv_updates()
+            print(f"DEBUG: CSV updates: {csv_updates}")
+            
+            # Handle app updates first (includes CSV updates)
+            if app_update_available:
+                self.prompt_app_update(app_info)
+            elif csv_updates:
+                self.prompt_csv_update(csv_updates)
+            else:
+                print("DEBUG: No updates available")
+                
+        except Exception as e:
+            print(f"DEBUG: Exception occurred: {type(e).__name__}: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            
+            # Show connection error message
+            QMessageBox.information(
+                self,
+                "接続エラー",
+                "GitHubに接続できませんでした。次回起動時に再度確認します。"
+            )
+    def prompt_csv_update(self, csv_updates):
+        """Prompt user for CSV updates."""
+        reply = QMessageBox.question(
+            self,
+            "辞書のアップデート", 
+            "辞書のアップデートがあります。今すぐ辞書をアップデートしますか？",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.Yes
+        )
+        
+        if reply == QMessageBox.Yes:
+            self.perform_csv_update(csv_updates)
 
+    def perform_csv_update(self, csv_updates):
+        """Download and apply CSV updates."""
+        # Disable UI during update
+        self.setEnabled(False)
+        self.statusBar().showMessage("辞書をアップデート中...")
+        
+        try:
+            # Download updates
+            updated_files = self.update_manager.download_csv_updates(csv_updates)
+            
+            if updated_files:
+                # Reload glossaries with new files
+                self.load_all_glossaries()
+                
+                # Show current language's updated filename
+                current_lang = self.glossary_manager.current_language
+                file_path = self.glossary_manager.glossaries[current_lang]["path"]
+                filename = os.path.basename(file_path) if file_path else "不明"
+                language_name = self.language_combo.currentText()
+                self.statusBar().showMessage(f"{language_name}: {filename}")
+                
+                QMessageBox.information(
+                    self, 
+                    "アップデート完了", 
+                    f"辞書のアップデートが完了しました。\n更新されたファイル: {', '.join(updated_files)}"
+                )
+            else:
+                QMessageBox.warning(self, "エラー", "辞書のアップデートに失敗しました。")
+                
+        finally:
+            # Re-enable UI
+            self.setEnabled(True)
+            self.statusBar().showMessage("準備完了")
+
+    def prompt_app_update(self, update_info):
+        """Prompt user for app update."""
+        reply = QMessageBox.question(
+            self,
+            "アプリのアップデート",
+            "アプリのアップデートがあります。今すぐアプリをアップデートしますか？",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.Yes
+        )
+        
+        if reply == QMessageBox.Yes:
+            # TODO: Implement app update download/install
+            QMessageBox.information(self, "アップデート", "アプリのアップデート機能は開発中です。")
 
 def main():
     """Application entry point."""
@@ -474,6 +593,7 @@ def main():
     
     # Start the event loop
     sys.exit(app.exec())
+
 
 
 if __name__ == "__main__":
