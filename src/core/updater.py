@@ -17,21 +17,6 @@ logger = logging.getLogger(__name__)
 class UpdateManager:
     """Manages checking for and applying updates."""
     
-    def __init__(self, current_version: str, glossaries_dir: str):
-        """
-        Initialize the UpdateManager.
-        
-        Args:
-            current_version: Current app version (e.g., "1.0.0")
-            glossaries_dir: Path to glossaries directory
-        """
-        self.current_version = current_version
-        self.glossaries_dir = Path(glossaries_dir)
-        
-        # GitHub URLs for update checking
-        self.app_update_url = "https://raw.githubusercontent.com/koh-kun/search-glossary/main/releases/latest.json"
-        self.csv_update_url = "https://raw.githubusercontent.com/koh-kun/search-glossary/main/glossaries/glossary-versions.json"
-    
     def _version_to_tuple(self, version: str) -> tuple:
         """Convert version string to tuple for comparison (e.g., '1.0.0' -> (1, 0, 0))"""
         try:
@@ -74,6 +59,8 @@ class UpdateManager:
             
             remote_versions = response.json()
             updates_needed = {}
+
+            installed_versions = self._get_installed_versions()
             
             # Check each CSV file
             for csv_file, remote_info in remote_versions.items():
@@ -84,10 +71,8 @@ class UpdateManager:
                     updates_needed[csv_file] = remote_info
                     continue
                 
-                # For now, we'll assume local files are version 1.0.0
-                # Later we can track local versions more sophisticatedly
-                local_version = "1.0.0"
-                remote_version = remote_info.get("version", "1.0.0")
+                local_version = installed_versions.get(csv_file, "0.0.0")
+                remote_version = remote_info.get("version", "1.0.0")               
                 
                 # Check if remote version is newer
                 local_tuple = self._version_to_tuple(local_version)
@@ -101,41 +86,7 @@ class UpdateManager:
         except Exception as e:
             logger.error(f"Failed to check for CSV updates: {str(e)}")
             return {}
-    def download_csv_updates(self, updates: Dict[str, Dict]) -> List[str]:
-        """
-        Download and install CSV updates.
-        
-        Args:
-            updates: Dictionary of CSV files to update
-            
-        Returns:
-            List of successfully updated file names
-        """
-        updated_files = []
-        
-        for csv_file, info in updates.items():
-            download_url = info.get("download_url")
-            if not download_url:
-                logger.error(f"No download URL for {csv_file}")
-                continue
-            
-            try:
-                # Download the updated CSV
-                response = requests.get(download_url, timeout=30)
-                response.raise_for_status()
-                
-                # Save to glossaries directory
-                local_path = self.glossaries_dir / csv_file
-                with open(local_path, 'wb') as f:
-                    f.write(response.content)
-                
-                updated_files.append(csv_file)
-                logger.info(f"Updated CSV: {csv_file}")
-                
-            except Exception as e:
-                logger.error(f"Failed to update {csv_file}: {str(e)}")
-        
-        return updated_files
+    
     def __init__(self, current_version: str):
         """
         Initialize the UpdateManager.
@@ -152,10 +103,30 @@ class UpdateManager:
         # Set up user data directory for persistent CSV storage
         self.user_data_dir = self._get_user_data_dir()
         self.user_glossaries_dir = self.user_data_dir / "glossaries"
-        
+        self.installed_versions_file = self.user_data_dir / "installed-versions.json"
+
         # Create directories if they don't exist
         self.user_glossaries_dir.mkdir(parents=True, exist_ok=True)
+        
+    def _get_installed_versions(self) -> Dict[str, str]:
+        """Read our record of which CSV versions are currently installed.
 
+        Returns a dict like {"Ja_En_Glossary.csv": "1.0.1"}.
+        Returns an empty dict the very first time, before anything's downloaded.
+        """
+        try:
+            with open(self.installed_versions_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return {}
+    
+    def _record_installed_version(self, csv_file: str, version: str) -> None:
+    
+        installed = self._get_installed_versions()   # read what we have
+        installed[csv_file] = version                # update this one entry
+        with open(self.installed_versions_file, 'w', encoding='utf-8') as f:
+            json.dump(installed, f, indent=2)        # write the whole thing back
+    
     def _get_user_data_dir(self) -> Path:
         """Get platform-specific user data directory."""
         import platform
@@ -171,7 +142,7 @@ class UpdateManager:
     def download_csv_updates(self, updates: Dict[str, Dict]) -> List[str]:
         """Download and install CSV updates to user data directory."""
         updated_files = []
-        
+               
         for csv_file, info in updates.items():
             download_url = info.get("download_url")
             if not download_url:
@@ -189,6 +160,8 @@ class UpdateManager:
                     f.write(response.content)
                 
                 updated_files.append(csv_file)
+                version = info.get("version", "1.0.0")
+                self._record_installed_version(csv_file, version)
                 logger.info(f"Updated CSV: {csv_file} -> {local_path}")
                 
             except Exception as e:
