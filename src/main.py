@@ -247,58 +247,56 @@ class MainWindow(QMainWindow):
         """Change the current glossary language."""
         language_code = self.language_combo.itemData(index)
         if self.glossary_manager.set_current_language(language_code):
-            info = self.glossary_manager.glossaries[language_code]["info"]
-            file_path = self.glossary_manager.glossaries[language_code]["path"]
-            
-            # Get version for current language
-            version = self.glossary_manager.glossaries[language_code].get("version", "1.0.0")
-            self.statusBar().showMessage(f"{self.language_combo.currentText()}: v{version}")
+            glossary = self.glossary_manager.glossaries[language_code]
+            version = glossary.get("version", "0.0.0")
+            term_count = glossary["info"]["total_terms"]
+            self.statusBar().showMessage(
+                f"{self.language_combo.currentText()}: v{version}（{term_count}語）"
+            )
         else:
             self.statusBar().showMessage("言語の変更に失敗しました")
 
     def load_all_glossaries(self):
-        """Load all language glossaries."""
-        # Get user data directory (same logic as updater)
-        user_data_dir = self._get_user_data_dir()
-        user_glossaries_dir = user_data_dir / "glossaries"
-        
-        # Define possible locations for glossary files
-        # Check user data directory first, then fall back to bundled files
-        base_paths = [
-            str(user_glossaries_dir),  # User data directory (updated files)
-            "",  # Current directory
-            "glossaries/",  # Bundled location
-            os.path.join(os.path.dirname(__file__), "glossaries/"),
-            os.path.join(os.path.dirname(__file__), "../glossaries/")
+        """Load the newest available copy of each language glossary."""
+        # Where copies of the glossaries might live. The user data dir goes
+        # first so that a downloaded update wins a version tie against the
+        # bundled copy.
+        candidate_dirs = [
+            self._get_user_data_dir() / "glossaries",
+            self._get_bundled_glossaries_dir(),
         ]
-        
-        # Language-specific glossary files
+
         language_files = {
             "en": "Ja_En_Glossary.csv",
             "ko": "Ja_Ko_Glossary.csv",
-            "zh": "Ja_Zh_Glossary.csv"
+            "zh": "Ja_Zh_Glossary.csv",
         }
-        
-        # Keep track of loaded glossaries
+
         loaded_glossaries = []
-        
-        # Try to load each glossary
         for lang_code, filename in language_files.items():
-            loaded = False
-            
-            for base_path in base_paths:
-                file_path = os.path.join(base_path, filename)
-                if os.path.exists(file_path):
-                    if self.glossary_manager.load_glossary(file_path, lang_code):
-                        loaded = True
-                        loaded_glossaries.append(lang_code)
-                        break
-            
-            # Clear the status bar after loading all glossaries
-            if loaded_glossaries:
-                self.statusBar().showMessage("準備完了")
-            else:
-                self.statusBar().showMessage("辞書が見つかりませんでした")
+            # choose_glossary_file compares the recorded version of every
+            # copy that exists and hands back the highest.
+            file_path, version = self.glossary_manager.choose_glossary_file(
+                filename, candidate_dirs
+            )
+            if file_path and self.glossary_manager.load_glossary(file_path, lang_code):
+                loaded_glossaries.append(lang_code)
+
+        # Status is reported once, after every language has been tried.
+        if loaded_glossaries:
+            self.statusBar().showMessage("準備完了")
+        else:
+            self.statusBar().showMessage("辞書が見つかりませんでした")
+
+    @staticmethod
+    def _get_bundled_glossaries_dir():
+        """Locate the glossaries that ship with the app."""
+        if getattr(sys, "frozen", False):
+            # Running from a PyInstaller build: data files are unpacked
+            # into a temp dir that PyInstaller records in sys._MEIPASS.
+            return Path(sys._MEIPASS) / "glossaries"
+        # Running from source: src/main.py -> repo root -> glossaries/
+        return Path(__file__).resolve().parent.parent / "glossaries"
     def _get_user_data_dir(self):
         """Get platform-specific user data directory."""
         import platform
