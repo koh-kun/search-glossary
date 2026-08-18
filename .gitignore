@@ -208,3 +208,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+*.msi
+*.wixobj
+*.wixpdb
