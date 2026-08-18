@@ -1,6 +1,7 @@
-term,translation,notes
+﻿term,translation,notes
+"－Also,",－ その他：,
 AAP,米国小児科学会（AAP）,
-Academy of Nutrition and Dietetics,アメリカ栄 養士会（AND）,
+Academy of Nutrition and Dietetics,アメリカ栄養士会（AND）,
 ACC,米国化学工業協会（ACC）,PFASの禁止に反対
 Acceptable Daily Intake,許容一日摂取量（ADI）,
 Accredited Third-Party Certification program,認定第三者認証プログラム,
@@ -21,15 +22,15 @@ AFFI,米国冷凍食品協会（AFFI）,
 AFGE,米国行政府職員連合（AFGE）,
 AFL-CIO,アメリカ労働総同盟・産業別組合会議（AFL-CIO）,米国最大の労働者団体
 African Swine Fever,アフリカ豚コレラ,African Swine Fever
-"Agency for Food, Environmental and Occupational Health & Safety",食品環境労働衛生安全庁（ANSES）,フランスの政府機関
 ag-gag law,畜産場隠し撮り禁止法（通称ag-gag法）,
+"Agency for Food, Environmental and Occupational Health & Safety",食品環境労働衛生安全庁（ANSES）,フランスの政府機関
 AGRI committee,農業・農村開発委員会,
+agri-food,農産食品,
 Agricultural Appropriations bill,農業支出法案,
 Agricultural Marketing Service,農業マーケティング局（AMS）,USDAの下部機関
 Agriculture and Horticulture Development Board,農業園芸開発公社（AHDB）,
-Agriculture and Rural Development (AGRI) Committee ,農業・農村開発（AGRI）委員会,欧州議会の委員会
+Agriculture and Rural Development (AGRI) Committee,農業・農村開発（AGRI）委員会,欧州議会の委員会
 Agriculture Minister Tereza Cristina,テレザ・クリスチナ農務相,
-agri-food,農産食品,
 agrifood system,アグリフードシステム,
 AHA,アメリカ心臓協会（AHA）,
 AHDB,農業園芸開発公社（AHDB）,
@@ -37,7 +38,6 @@ AHPA,米国ハーブ製品協会（AHPA）,
 Alcohol and Tobacco Tax and Trade Bureau,アルコール・タバコ税貿易管理局（TTB）,アルコール飲料のラベル表示基準に関する新規則を発行
 ALDF,動物法律擁護基金（ALDF）,
 allulose,アルロース,
-"－Also,",－ その他：,
 Amarin Pharma,日本語表記はありません,
 Amazon,アマゾン,
 American Academy of Pediatrics,米国小児科学会（AAP）,
@@ -61,7 +61,7 @@ Animal Welfare Institute,動物福祉研究所（AWI）,
 Anna Eshoo,アンナ・エシュー,
 Annals of Internal Medicine,日本語表記はありません,医学雑誌
 Annie's Homegrown,アニーズ・ホームグロウン,「ナチュラル」表示で訴えられる
-Annual Agricultural Outlook Forum ,年次農業観測会議,USDAの会議
+Annual Agricultural Outlook Forum,年次農業観測会議,USDAの会議
 ANSES,食品環境労働衛生安全庁（ANSES）,フランスの政府機関
 antibiotics,抗生物質,
 antimicrobial resistance,薬剤耐性（AMR）,
@@ -73,10 +73,9 @@ Archer Daniels Midland,ADM,米国の農業大手
 ASC,水産養殖管理協議会（ASC）,
 ASF,アフリカ豚コレラ（ASF）,
 Aspen Institute,アスペン研究所,COVID-19営業再開ガイドラインを発表
-Association of Food and Drug Official,食品医薬品監視員協議会（AFDO）,
 Association of Food and Drug Officials,食品医薬品監視員協議会（AFDO）,
 ASTA,米国スパイス貿易協会（ASTA）,
-ATNI,栄養へのアクセス・イニシアチブ（ATNI）,
+ATNi,栄養へのアクセス・イニシアチブ（ATNi）,
 AWI,動物福祉研究所（AWI）,
 B corp,B Corp,米国の非営利団体B Labによる認証基準
 BASF,日本語表記はありません,ジカンバ製品を製造するドイツの化学メーカー。
@@ -94,16 +93,15 @@ BMJ,英国医師会雑誌（BMJ）,
 Bonumose,日本語表記はありません,FDAに食品識別基準の緩和を請願
 BRC,英国小売業協会（BRC）,British Retailers Consortium
 BRF,日本語表記はありません,豚・鶏肉大手
-British Medical Journal ,英国医師会雑誌（BMJ）,
+British Medical Journal,英国医師会雑誌（BMJ）,
 Brucell,ブルセラ属菌,
 BSE,牛海綿状脳症（BSE）,
 BSI,英国規格協会（BSI）,
-Burger King ,バーガーキング,
+Burger King,バーガーキング,
 CADE,経済擁護行政委員会（CADE）,ブラジルの独占禁止法規制当局
 CAFO,大規模畜産農場（CAFO）,
 CAGR,年平均成長率,
-CalChamber,カリフォルニア州商工会議,
-CalChamber ,カリフォルニア州商工会議所（CalChamber ）,
+CalChamber,カリフォルニア州商工会議所（CalChamber）,
 California Code of Regulations,カリフォルニア州規則集（California Code of Regulations）,
 Campbell Soup,キャンベル・スープ,
 Campylobacter,カンピロバクター、カンピロバクター属菌,
@@ -115,16 +113,35 @@ Canadian Health Food Association,カナダ健康食品協会,
 Canopy Growth,キャノピー・グロース,カナダの大手大麻企業
 CAP,共通農業政策（CAP）,
 Carcinogenic to humans,ヒトに対して発がん性を有する,
-Cargill ,カーギル,
+Cargill,カーギル,
 CAST,農業科学技術委員会（CAST）,細胞培養肉に関する報告書を作成
 CBA,消費者ブランド協会（CBA）,食料品製造業者協会（Grocery Manufacturers Association：GMA）の新名称
 CBD,カンナビジオール（CBD）,
 CBD American Shaman,CBDアメリカンシャーマン,CBDメーカー
 CBP,米国税関国境警備局（CBP）,
+CCAFRICA,FAO/WHOアフリカ地域調整部会,
+CCASIA,FAO/WHOアジア地域調整部会,
 CCC,商品金融公社（CCC）,
-CCFH,コーデックス食品衛生部会（CCFH）,
+CCCF,コーデックス食品汚染物質部会,
+CCCPL,コーデックス穀物・豆類部会,
+CCFA,コーデックス食品添加物部会,
+CCFFP,コーデックス魚類・水産製品部会,
+CCFFV,コーデックス生鮮果実・野菜部会,
+CCFH,コーデックス食品衛生部会,
+CCFICS,コーデックス食品輸出入検査・認証制度部会,
+CCFL,コーデックス食品表示部会,
 CCFN,一般食品名称に関わるコンソーシアム,Consortium for Common Food Names
-CCRVDF,コーデックス食品残留動物用医薬品部会（CCRVDF）,2回目以降は略称で表記
+CCFO,コーデックス油脂部会,
+CCGP,コーデックス一般原則部会,
+CCLAC,FAO/WHOラテンアメリカ・カリブ海地域調整部会,
+CCMAS,コーデックス分析・サンプリング法部会,
+CCMMP,コーデックス乳・乳製品部会,
+CCNASWP,FAO/WHO北米・南西太平洋地域調整部会,
+CCNE,FAO/WHO近東地域調整部会,
+CCNFSDU,コーデックス栄養・特殊用途食品部会,
+CCPR,コーデックス残留農薬部会,
+CCRVDF,コーデックス食品残留動物用医薬品部会,
+CCSCH,コーデックススパイス・料理用ハーブ部会,
 CDC,疾病管理予防センター（CDC）,
 CEH,環境衛生センター（CEH）,Center for Environmental Health、食品安全などを訴える団体
 CEH,英国生態水文学研究所（CEH）,Centre for Ecology＆Hydrology
@@ -136,7 +153,7 @@ Center for Science in the Public Interest,公益科学センター（CSPI）,
 Center for Veterinary Medicine,動物用医薬品センター（CVM）,
 Centers for Disease Control and Prevention,疾病管理予防センター（CDC）,
 Centre for Ecology and Hydrology,英国生態水文学研究所（CEH）,
-CEO,CEO,基本はそのままCEOとする。和訳すべき場合は、企業では「最高経営責任者」、政府機関では「最高責任者」などとする。
+CEO,取締役,Chief Executive Officer
 Ceres,セリーズ,持続可能性の向上を目指す団体
 CERT,有害物質に関する教育・研究協議会（CERT）,
 Certificate of Product Registration (CPR),製品登録証明（CPR）,
@@ -162,17 +179,31 @@ citrus greening,カンキツグリーニング病,
 Classical Swine Fever,豚コレラ（CFS）,
 Clean Label Project,クリーン・ラベル・プロジェクト,
 Closer to Zero,さらにゼロに近づける（Closer to Zero）,
-Coca-Cola ,コカ・コーラ,
+Coca-Cola,コカ・コーラ,
 Code of Practice,実施規範,
 Codex,コーデックス委員会,
+"Codex Committee on Cereals, Pulses and Legumes",コーデックス穀物・豆類部会（CCCPL）,
+Codex Committee on Contaminants in Foods,コーデックス食品汚染物質部会（CCCF）,
+Codex Committee on Fats and Oils,コーデックス油脂部会（CCFO）,
+Codex Committee on Fish and Fishery Products,コーデックス魚類・水産製品部会（CCFFP）,
+Codex Committee on Food Additives,コーデックス食品添加物部会（CCFA）,
 Codex Committee on Food Hygiene,コーデックス食品衛生部会（CCFH）,
-Codex Committee on Residues of Veterinary Drugs in Foods,コーデックス食品残留動物用医薬品部会（CCRVDF）,2回目以降は略称で表記
+Codex Committee on Food Import and Export Inspection and Certification System,コーデックス食品輸出入検査・認証制度部会（CCFICS）,
+Codex Committee on Food Labelling,コーデックス食品表示部会（CCFL）,
+Codex Committee on Fresh Fruits and Vegetables,コーデックス生鮮果実・野菜部会（CCFFV）,
+Codex Committee on General Principles,コーデックス一般原則部会（CCGP）,
+Codex Committee on Methods of Analysis and Sampling,コーデックス分析・サンプリング法部会（CCMAS）,
+Codex Committee on Milk and Milk Products,コーデックス乳・乳製品部会（CCMMP）,
+Codex Committee on Nutrition and Foods for Special Dietary Uses,コーデックス栄養・特殊用途食品部会（CCNFSDU）,
+Codex Committee on Pesticide Residues,コーデックス残留農薬部会（CCPR）,
+Codex Committee on Residues of Veterinary Drugs in Foods,コーデックス食品残留動物用医薬品部会（CCRVDF）,
+Codex Committee on Spices and Culinary Herbs,コーデックススパイス・料理用ハーブ部会（CCSCH）,
 Coldiretti,コルディレッティ,イタリアの農業者団体
 color additive petition,色素添加物申請（CAP）,米国の制度
 Commodities and Futures Trading Commission,米商品先物取引委員会（CFTC）,
 Commodity Futures Trading Commission Agricultural Advisory Committee,商品先物取引委員会・農業諮問委員会（CFTC/AAC）,
 Common Agricultural Policy,共通農業政策（CAP）,
-compost, 堆肥,
+compost,堆肥,
 Comprehensive Economic and Trade Agreement,包括的経済貿易協定（CETA）,
 "Compressed Gas Association, Inc.",圧縮ガス協会（CGA）,
 Conference for Food Protection,食品保護会議（CFP）,
@@ -198,20 +229,25 @@ CRN,米国栄養評議会（CRN）,
 CSF,豚コレラ（CFS）,
 CSPI,公益科学センター（CSPI）,Center for Science in the Public Interest（米国の消費者団体）
 Curaleaf,キュラリーフ,大麻企業
+Current Good Manufacturing Practice,現行適正製造規範,
 Customs broker,通関業者,
 CV Sciences,日本語表記はありません,CBDメーカー
 Cyclospora,サイクロスポーラ,
-Cyclospora cayetanensis,サイクロスポーラ・カイエタネンシス(Cyclospora cayetanensis) ,
+Cyclospora cayetanensis,サイクロスポーラ・カイエタネンシス（Cyclospora cayetanensis）,
+D-Calif.,民主党-カリフォルニア州,
+D-Conn,民主党-コネチカット州,
+D-tagatose,D-タガトース,
 Danone,ダノン,
 Data Universal Numbering System (DUNS) number,DUNSナンバー,
 David Acheson,デイビッド・アチソン,David Acheson
-D-Calif.,民主党-カリフォルニア州,
-D-Conn,民主党-コネチカット州,
 Dean Foods,ディーン・フーズ,
 defend,擁護,
 DEFRA,環境・食糧・農村地域省（DEFRA）,
 DeLauro,デローロ議員,
-Department for Environment Food and Rural Affairs,Search Results Web results  環境・食糧・農村地域省（DEFRA）,
+Department for Environment Food and Rural Affairs,環境・食糧・農村地域省（DEFRA）,
+Department of Health & Human Services,米国保健福祉省（HHS）,
+Department of Health and Human Services,米国保健福祉省（HHS）,
+Department of Health and Social Care,保健社会福祉省（DHSC）,※英国機関
 Department of Justice,米国司法省（DOJ）,
 Department of Pesticide Regulation,農薬規制局（DPR）,
 Department of Trade and Industry (DTI),フィリピン貿易産業省（DTI）,
@@ -219,32 +255,34 @@ Deputy Commissioner for Food Policy and Response,食品政策・対応担当副�
 deputy under secretary for food safety,食品安全担当副次官,
 DFA,米国酪農協同組合（DFA）,
 DGAC,食事ガイドライン諮問委員会（DGAC）,
+DHSC,保健社会福祉省（DHSC）,※英国機関のDepartment of Health and Social Care
 Diamond CBD,ダイヤモンドCBD,CBDメーカー
 Dietary Guidelines Advisory Committee,食事ガイドライン諮問委員会（DGAC）,
 Dietary Guidelines for Americans,米国人のための食事ガイドライン,
 dietary supplement,ダイエタリーサプリメント,
 Dietary Supplement Health and Education Act,ダイエタリーサプリメント健康教育法（DSHEA）,DSHEA
 DOC,米国商務省（DOC）,
-DOJ ,米国司法省（DOJ ）,
+DOJ,米国司法省（DOJ）,
 Dole,ドール,
 DPR,農薬規制局（DPR）,
 DSHEA,栄養補助食品健康教育法（DSHEA）,
-D-tagatose,D-タガトース,
+due diligence,デューディリジェンス,
+E-Commerce,eコマース,
 E. coli,大腸菌,
 E.coli,大腸菌,
 EASAC,欧州アカデミー科学諮問委員会（EASAC）,
 EAT-Lancet Commission,EATランセット委員会,肉の摂取削減を提言
-EC,欧州委員会（EC）,FALSE
+EC,欧州委員会（EC）,
 ECDC,欧州疾病予防管理センター（ECDC）,
 ECHA,欧州化学品庁（ECHA）,European Chemicals Agency
 Echinococcus,エキノコックス,
 ECI,欧州市民イニシアチブ（ECI）,
 ECJ,欧州司法裁判所（ECJ）,
-E-Commerce,eコマース,
 Economic Research Service,経済調査局（ERS）,USDAの下部機関
 EDF,環境防衛基金（EDF）,
 EFSA,欧州食品安全機関（EFSA）,European Food Safety Authority
 Egg Nutrition Center,卵栄養センター（ENC）,ENC
+EMA,欧州医薬品庁（EMA）,※European Medicines Agency
 Endangered Species Act,絶滅危機生物保護法（ESA）,
 endocrine disruptor,内分泌かく乱物質,
 Environmental Defense Fund,環境防衛基金（EDF）,
@@ -264,10 +302,10 @@ European Commission,欧州委員会,ECと略す場合もあり
 European Court of Justice,欧州司法裁判所（ECJ）,
 European Dairy Association,欧州酪農協会,
 European Food Safety Authority,欧州食品安全機関（EFSA）,
-European Food Safety Authority ,欧州食品安全機関（EFSA）,
 European Livestock and Meat Trades Union,欧州家畜食肉取引業者連盟（UECBV）,
+European Medicines Agency,欧州医薬品庁（EMA）,
 European Parliament,欧州議会,EPと略す場合もあり
-European Parliament’s Petitions Committee ,欧州議会請願委員会,請願書の審査などを行う委員会
+European Parliament’s Petitions Committee,欧州議会請願委員会,請願書の審査などを行う委員会
 European Union Reference Laboratories,欧州連合基準研究所,
 EWG,環境ワーキンググループ（EWG）,「農薬に汚染された12の農産物リスト」などを発表
 exposure,曝露,
@@ -277,25 +315,31 @@ factory farm,工場式農場,
 FAIRR,畜産動物投資リスク・リターン（FAIRR）,投資家ネットワーク
 FALCPA,食物アレルゲン表示・消費者保護法（FALCPA）,米国の法律
 FAO,国連食糧農業機関（FAO）,
+FAO/WHO Coordinating Committee for Africa,FAO/WHOアフリカ地域調整部会（CCAFRICA）,
+FAO/WHO Coordinating Committee for Asia,FAO/WHOアジア地域調整部会（CCASIA）,
+FAO/WHO Coordinating Committee for Latin America and the Caribbean,FAO/WHOラテンアメリカ・カリブ海地域調整部会（CCLAC）,
+FAO/WHO Coordinating Committee for Near East,FAO/WHO近東地域調整部会（CCNE）,
+FAO/WHO Coordinating Committee for North America and the South West Pacific,FAO/WHO北米・南西太平洋地域調整部会（CCNASWP）,
 Farm Animal Investment Risk and Return,畜産動物投資リスク・リターン（FAIRR）,投資家ネットワーク
 Farm Bill,農業法案,
 FASTER Act,食物アレルギーの安全、治療、教育および研究に関する法律（FASTER法）,米国の法律
 FCF Co.,FCF社,台湾のマグロ加工業者
 FD&C Act,連邦食品・医薬品・化粧品法（FD&C法）,
-FDA,米国食品医薬品局（FDA）,Food and Drugs Administration
+FDA,米国食品医薬品局（FDA）,Food and Drug Administration
 FDLI,食品医薬品法研究協会（FDLI）,
-Federal Customs Service of Russia ,ロシア連邦税関局 （FTS）,
+Federal Customs Service of Russia,ロシア連邦税関局（FTS）,
 "Federal Food, Drug, and Cosmetic Act",連邦食品・医薬品・化粧品法（FD&C法）,
-Federal Open Market Committee,連邦公開市場委員会 ,
+Federal Open Market Committee,連邦公開市場委員会,
 Federal Register,連邦官報,米国のFederal Registerの訳
 Federal Register Notice,連邦官報告示,米国のFederal Register Noticeの訳
+Federal Service for Veterinary and Phytosanitary Surveillance,ロシア連邦動植物検疫監督局（Rosselkhoznadzor）,
 Federal Trade Commission,連邦取引委員会（FTC）,
 first-mover advantage,先行者利益,
-Flexible Vinyl Alliance ,軟質ビニル連盟（FVA）,
+Flexible Vinyl Alliance,軟質ビニル連盟（FVA）,
 FMCG,低価格日用消費財,Fast Moving Consumer Goods
 FMI,食品マーケティング協会（FMI）,
 FNS,食料栄養局（FNS）,Food and Nutrition Service
-FOMC,連邦公開市場委員会 ,Federal Open Market Committee
+FOMC,連邦公開市場委員会,Federal Open Market Committee
 Food & Ag Briefing:,先週の食品・農業政策の概要：,
 Food & Water Watch,Food & Water Watch,Food and Water Watch （F&WW：「食と水の監視」）
 Food Additive Petition,食品添加物申請（FAP）,
@@ -305,12 +349,14 @@ Food Allergen Labeling and Consumer Protection Act,食物アレルゲン表示�
 Food and Agriculture Organisation,国連食糧農業機関（FAO）,
 Food and Agriculture Organization,国連食糧農業機関（FAO）,
 Food and Drug Law Institute,食品医薬品法研究協会（FDLI）,
+Food and Drug Regulations,食品医薬品規則,※カナダの法令
+Food and Drugs Act,食品医薬品法,※カナダの法令
 Food and Nutrition Service,食料栄養局（FNS）,FNS
 Food attorney,食品関連法専門弁護士,
 food chain,フードチェーン,
 Food Code,食品コード,初出時は（Food Code：食品衛生規則）を併記
 food contact material,食品接触材料,
-Food Contact Notification,食品接触通知（FCN),
+Food Contact Notification,食品接触通知（FCN）,
 food defense,食品防御,
 food fraud,食品偽装,
 Food Marketing Institute,食品マーケティング協会（FMI）,
@@ -326,16 +372,16 @@ Food Standards Australia New Zealand,オーストラリア・ニュージーラ�
 food supplement,フードサプリメント,
 "Food, Drug and Cosmetic Act",連邦食品・医薬品・化粧品法,
 foodborne illness,食品由来疾病、食中毒,
-Foods for Special Medical Purposes(FSMP),特別医療用途食品（FSMP）,※国や機関ごとに意味、定義が異なるので適切な訳を調べてください
-FOP,容器包装前面（FOP）,
+Foods for Special Medical Purposes (FSMP),特別医療用途食品（FSMP）,※国や機関ごとに意味、定義が異なるので適切な訳を調べてください
+FOP,包装前面（FOP）,
 Foreign Supplier Verification Program,外国供給業者検証プログラム（FSVP）,
 Foundation FSSC,FSSC財団,
 Frank Yiannas,フランク・イアナス,
 Frans Timmermans,フランス・ティメルマンス,欧州委員会の上級副委員長（2022年9月時点）
 Fresh Express,日本語表記はありません,サラダ製品で食中毒発生
 friend-of-the-court brief,法廷助言者文書,
-front of pack,容器包装前面（FOP）,
-front of package,容器包装前面（FOP）,
+front of pack,包装前面（FOP）,
+front of package,包装前面（FOP）,
 FSA,英国食品基準庁（FSA）,
 FSAI,アイルランド食品安全局（FSAI）,
 FSANZ,オーストラリア・ニュージーランド食品基準機関（FSANZ）,
@@ -349,15 +395,14 @@ FTC,連邦取引委員会（FTC）,
 FVE,スペインワイン連盟（FVE）,
 GAO,米国政府説明責任局（GAO）,
 GAP,政府説明責任プロジェクト（GAP）,Government Accountability Project、内部告発したUSDA検査官の代理を務める団体
-GAP,農業生産工程管理（GAP),※初出時は英語を併記
+GAP,農業生産工程管理（GAP）,※初出時は英語を併記
 gene-edited,遺伝子編集,
 general data protection regulation,一般データ保護規則（GDPR）,
 General Mills,ゼネラル・ミルズ,
 Geographical Indications,地理的表示（GI）,
-George Institute for Global Health ,日本語表記はありません,医学研究所
+George Institute for Global Health,日本語表記はありません,医学研究所
 GFI,グッドフードインスティテュート（GFI）,
 GFSI,世界食品安全イニシアチブ（GFSI）,
-GFSI ,世界食品安全イニシアチブ（GFSI ）,
 GI,地理的表示,
 GIPSA,穀物検査食肉流通局（GIPSA）,
 Givaudan,ジボダン社,
@@ -365,10 +410,10 @@ Global Food Safety Initiative’s (GFSI),世界食品安全イニシアチブ（
 Global Widget,日本語表記はありません,CBDメーカー
 glyphosate,グリホサート,glyphosate
 GMA,グロサリー製造業者協会（GMA）,
-GMO,遺伝子組換え（GMO）,
+GMO,遺伝子組換え生物（GMO）,
 GNC,日本語表記はありません,合成植物成分をサプリメントの成分として認めるよう要請
-Good Agricultural Practice,農業生産工程管理（GAP),※初出時は英語を併記
-Good Agricultural Practices,農業生産工程管理（GAP),※初出時は英語を併記
+Good Agricultural Practice,農業生産工程管理（GAP）,※初出時は英語を併記
+Good Agricultural Practices,農業生産工程管理（GAP）,※初出時は英語を併記
 Good Food Institute,グッドフードインスティテュート（GFI）,
 Good Manufacturing Practice,適正製造規範（GMP）,
 Gottlieb,ゴットリーブ長官,スコット・ゴットリーブFDA長官
@@ -389,7 +434,7 @@ hemp seed,ヘンプシード,
 hemp seed oil,ヘンプシードオイル,
 hemp seed protein,ヘンプシードプロテイン,
 Hershey’s,ハーシー,
-HHS,米国保健社会福祉省 （HHS）,Human and Health Services
+HHS,米国保健福祉省 （HHS）,
 Highly Pathogenic Avian Influenza,高病原性鳥インフルエンザ（HPAI）,HPAI
 HIMP,HACCPに基づいた検査モデル計画（HIMP）,
 Hormel Foods,ホーメル・フーズ,
@@ -400,7 +445,6 @@ House appropriations subcommittee,米国下院歳出小委員会,
 HPAI,高病原性鳥インフルエンザ（HPAI）,highly pathogenic avian influenza
 HSR,ヘルス・スター・レーティング（HSR）,
 HSUS,米国動物愛護協会（HSUS）,
-Human and Health Services,米国保健福祉省 （HHS）,HHS
 Humane Society of the United States,米国動物愛護協会（HSUS）,
 IAFP,国際食品保護協会（IAFP）,食品安全専門家の団体
 IARC,国際がん研究機関（IARC）,International Agency for Research on Cancer
@@ -417,28 +461,30 @@ Infant Formula,乳児用調製乳,
 Informa,日本語表記はありません,会議「Food Ingredients Europe」を開催
 initiative,イニシアチブ,文脈によっては「構想」や「取り組み」も
 Interagency Food Safety Analytics Collaboration,食品安全分析に関する省庁間協力,IFSAC
-International Agency for Research on Cancer,国際がん研究機関（IARC） ,
+International Agency for Research on Cancer,国際がん研究機関（IARC）,
 International Association for Food Protection,国際食品保護協会（IAFP）,食品安全専門家の団体
 International Dairy Foods Association,国際乳製品協会（IDFA）,IDFA
 International Life Sciences Institute,国際生命科学研究機構（ILSI）,
 inventory visibility,在庫状況確認,
 ISO,国際標準化機構（ISO）,
-isomaltooligosaccharide (IMO),イソマルトオリゴ糖 （IMO）,
+isomaltooligosaccharide (IMO),イソマルトオリゴ糖（IMO）,
 J.M. Smucker,J.M.スマッカー,Jifブランドのピーナッツバターを製造
 Jair Bolsonaro,ジャイル・ボルソナロ,ブラジル大統領
 JBS,日本語表記はありません,
 JECFA,FAO/WHO合同食品添加物専門家会議（JECFA）,
 JEMRA,FAO/WHO合同微生物学的リスク評価専門家会議（JEMRA）,
 Jimmy John,ジミー・ジョンズ,食中毒を起こしたサンドイッチチェーン
+JMPR,FAO/WHO合同残留農薬専門家会議（JMPR）,
 Joint FAO/WHO Expert Committee on Food Additives,FAO/WHO合同食品添加物専門家会議（JECFA）,
 Joint FAO/WHO Expert Meetings on Microbiological Risk Assessment,FAO/WHO合同微生物学的リスク評価専門家会議（JEMRA）,
+Joint FAO/WHO Meeting on Pesticide Residues,FAO/WHO合同残留農薬専門家会議（JMPR）,
 Journal of Epidemiology & Community Health,日本語表記はありません,オンラインの科学雑誌
 JUST,日本語表記はありません,植物性食品事業を行う
 Keller and Heckman,ケラー＆ヘックマン,国際的法律事務所
-Kellogg ,ケロッグ,
+Kellogg,ケロッグ,
 Kraft Heinz,クラフト・ハインツ,
 kratom,クラトム,
-Kroger ,クローガー,米国最大手の小売業者
+Kroger,クローガー,米国最大手の小売業者
 La Unio de Llauradors,日本語表記はありません,スペイン・バレンシア地域の農業団体
 Labor Code,労働法,カリフォルニア州の規則（外務省訳に準拠）
 laboratory accreditation program,検査所認定規則,
@@ -447,8 +493,10 @@ Lancet,ランセット,医学雑誌
 laying hens,産卵鶏,
 LGMA,地方自治体管理者協会（LGMA）,
 License to Operate (LTO),営業許可（LTO）,
+lipid-based nutrient supplement,脂質ベースの栄養サプリメント（LNS）,※初出時は英語を併記
 listeria monocytogenes,リステリア・モノサイトゲネス,初出時は学名を併記
 listeriosis,リステリア症,
+LNS,脂質ベースの栄養サプリメント,※初出時は英語（lipid-based nutrient supplement）を併記
 Luke,フィンランド自然資源研究所（Luke）,
 Manufactured Food Regulatory Program Standards,製造食品規制計画基準（MFRPS）,米国の州食品規制当局用の規制計画基準
 MARA,農業農村部（MARA）,
@@ -467,7 +515,7 @@ MFRPS,製造食品規制計画基準（MFRPS）,米国の州食品規制当局�
 microbiological risk assessment,微生物学的リスク評価（MRA）,
 Mile High Labs,マイルハイラボ,CBDメーカー
 Ministry of Agriculture and Rural Affairs,農業農村部（MARA）,
-Ministry of Industry and Information Technology,中華人民共和国工業情報化部（MIIT）,中?人民共和国工?和信息化部（工信部）
+Ministry of Industry and Information Technology,中華人民共和国工業情報化部（MIIT）,中华人民共和国工业和信息化部（工信部）
 Minselkhoz,ロシア連邦農業省,
 Mitigation Strategies To Protect Food Against Intentional Adulteration,意図的異物混入から食品を保護するための集中的緩和戦略,
 Miyoko's Creamery,日本語表記はありません,ビーガンバター製造業者
@@ -497,14 +545,14 @@ National Association of Convenience Stores,全米コンビニエンスストア�
 National Association of Federal Veterinarians,全米連邦獣医官協会（NAVF）,
 National Association of State Departments of Agriculture,全米州農業局協会（NASDA）,
 National Bioengineered Food Disclosure Standard,全米バイオ工学食品情報開示基準（NBFDS）,
-National Center for Toxicological Research,国立毒性研究センター（NCTR),
+National Center for Toxicological Research,国立毒性研究センター（NCTR）,
 National Chicken Council,全米鶏肉協議会,
 National Consumers League,全米消費者連盟（NCL）,
 National Credit Union Administration,全米信用組合管理機構（NCUA）,米国の金融規制当局
-National Farmers' Federation,全国農業者連盟（NFF）,オーストラリアの農業者団体
 National Farmers Union,全国農業者組合（NFU）,
+National Farmers' Federation,全国農業者連盟（NFF）,オーストラリアの農業者団体
 National Fisheries Institute,全米漁業協会（NFI）,
-National Institute for Food and Agriculture,国立食料農業研究所（NIFA）,
+National Institute for Food and Agriculture,国立食料農業研究所（NIFA）,原文表記揺れ対応用
 National Institute of Food and Agriculture,国立食料農業研究所（NIFA）,移転計画のあるUSDAの研究機関
 National Institutes of Health,アメリカ国立衛生研究所（NIH）,
 National List of Allowed and Prohibited Substances,使用可能・禁止物質リスト,
@@ -516,7 +564,7 @@ National Pork Board,全米豚肉委員会,
 National Pork Producers Council,全米豚肉生産者協議会（NPPC）,
 National Potato Promotion Board,全国ジャガイモ促進協会,
 National School Lunch Program,全米学校給食プログラム,
-natural capital accounting, 自然資本会計,
+natural capital accounting,自然資本会計,
 Natural Products Association,米国自然製品協会（NPA）,
 Natural Resources Defense Council,天然資源保護協議会（NRDC）,
 NBFDS,全米バイオ工学食品情報開示基準（NBFDS）,National Bioengineered Food Disclosure Standard
@@ -524,9 +572,9 @@ NCBA,全米肉牛生産者・牛肉協会（NCBA）,
 NCC,全米鶏肉協議会（NCC）,
 NCL,全米消費者連盟（NCL）,
 NCLA,新市民の自由連盟（NCLA）,無線IDガイドラインをめぐりUSDAを提訴
-NCTR,国立毒性研究センター（NCTR),National Center for Toxicological Research
+NCTR,国立毒性研究センター（NCTR）,National Center for Toxicological Research
 NCUA,全米信用組合管理機構（NCUA）,米国の金融規制当局
-NDI,新規ダイエタリーサプリメント成分（NDI）,
+NDI,新規栄養成分（NDI）,
 Nestle,ネスレ,
 Nestle Waters North America,北米ネスレウォーターズ,
 New Civil Liberties Alliance,新市民の自由連盟（NCLA）,無線IDガイドラインをめぐりUSDAを提訴
@@ -565,11 +613,12 @@ NSAC,全国持続的農業連合会（NSAC）,
 NuGo Nutrition,日本語表記はありません,栄養バーメーカー。ダークチョコレートの識別基準を求める
 NuTek,日本語表記はありません,塩化カリウムを「カリウム塩」として記載できるよう請願
 nutrient content claim,栄養素含有量強調表示,
-Nutrition Facts, 栄養成分表,
+Nutrition Facts,栄養成分表,
 OCA,有機消費者協会（OCA）,
 Occupational Safety and Health Administration,労働安全衛生局（OSHA）,労働省の下部機関
 Ocean Spray Cranberry,オーシャンスプレー・クランベリー,表示問題で提訴される
-OECD,ヨーロッパ経済協力機構（OECD）,Organization for European Economic Cooperation
+OECD,経済協力開発機構（OECD）,Organisation for Economic Co-operation and Development
+OEEC,ヨーロッパ経済協力機構（OEEC）,Organization for European Economic Co-operation
 OEHHA,カリフォルニア州環境保健有害性評価局（OEHHA）,
 OFAS,食品添加物安全事務局（OFAS）、食品添加物安全室（OFAS）,
 Office of Administrative Law,カリフォルニア州行政法局,
@@ -587,7 +636,7 @@ Olymel,オリメル,カナダの大手食肉会社
 OMB,米国行政管理予算局（OMB）,
 ONE Brands LLC,日本語表記はありません,プロテインバーを製造
 Organic Foods Production Act,有機食品生産法（OFPA）,
-Organic Livestock and Poultry Practices ,有機家畜・家禽飼育法,OLPP
+Organic Livestock and Poultry Practices,有機家畜・家禽飼育法,OLPP
 Organic Trade Association,有機取引協会（OTA）,
 OSC,米国特別顧問局（OSC）,
 OSHA,労働安全衛生局（OSHA）,労働省の下部機関
@@ -605,6 +654,7 @@ perchlorate,過塩素酸塩,
 Perdue,パーデュー,"Sonny Perdue, Secretary of Agriculture　ソニー・パーデュー米国農務長官"
 Perdue Farms,パーデュー,大手家禽肉生産業者
 Perfect Day,パーフェクトデイ,微生物産生タンパク質を製造
+personalized nutrition,パーソナライズドニュートリション,※初出時は英語（personalized nutrition）を併記
 PFAS,ペル／ポリフルオロアルキル物質（PFAS）,
 PFOS,ペルフルオロオクタンスルホン酸（PFOS）,
 PGI,地理的表示保護（PGI）,
@@ -630,7 +680,7 @@ Probably carcinogenic to humans,おそらくヒトに対して発がん性を有
 Processing Contaminants,加工汚染物質,
 Produce Marketing Association,農産物マーケティング協会（PMA）,
 Produce Safety rule,農産物安全規則,
-Prop 65,カリフォルニア州法案プロポジション65（Prop 65),Proposition 65
+Prop 65,カリフォルニア州法案プロポジション65（Prop 65）,Proposition 65
 Protected Geographical Indication,地理的表示保護（PGI）,
 protein,タンパク質,
 provisions,規定,項目
@@ -642,23 +692,26 @@ qualified health claim,限定的健康強調表示,
 quantum satis,必要量,初出時は「必要量（quantum satis）」と表記する
 Quebec Ministry of Health,ケベック州保健省,
 Queensland University of Technology,クイーンズランド工科大学,
+R-CALF USA,牧場主・肉用牛生産者行動法律財団・アメリカ家畜生産者連合（R-CALF USA）,
 ractopamine,ラクトパミン,
 Rainforest Action Network,レインフォレスト・アクション・ネットワーク（RAN）,
 RAN,レインフォレスト・アクション・ネットワーク（RAN）,
 Rapid Alert System for Food and Feed,食品飼料緊急警報システム（RASFF）,
 RASFF,食品飼料緊急警報システム（RASFF）,
-R-CALF USA,牧場主・肉用牛生産者行動法律財団・アメリカ家畜生産者連合（R-CALF USA）,
 ready-to-drink,RTD飲料,
 ready-to-eat,RTE食品,
+ready-to-use therapeutic food,すぐに食べられる栄養治療食（RUTF）,※初出時は英語を併記
 red meat,レッドミート,初出時は末尾に（red meat）を併記
 regenerative agriculture,環境再生型農業,※初出時は英語も併記
 regenerative farming,環境再生型農業,※初出時は英語も併記
 Regulation (EU) 2015/2283,規則（EU）2015/2283,
 Regulation (EU) 2015/2283 of the European Parliament and of the Council,規則（EU）2015/2283,
 regulatory regime,規制制度,
-reinstates,"回復,復活",Reinstate membership = 回委員資格停止を解除
+reinstates,"回復,復活",Reinstate membership = 会員資格停止を解除
+request for information,情報提供依頼（RFI）,※米国FDAの記事に出てきた場合のみ
 Reuters,ロイター通信,
 RFA,再生可能燃料協会（RFA）,
+RFI,情報提供依頼（RFI）,※米国FDAの記事に出てきた場合のみ
 RFS,再生可能燃料基準（RFS）,
 risk,リスク,
 risk management recommendation,リスク管理勧告（RMR）,
@@ -666,11 +719,12 @@ RMR,リスク管理勧告,Risk Management Recommendation
 Rosa DeLauro,ローザ・デローロ,
 Rosselkhoznadzor,ロシア連邦動植物検疫監督局（Rosselkhoznadzor）,
 Roundtable on Sustainable Palm Oil,持続可能なパーム油のための円卓会議（RSPO）,
-RSPO,持続可能なパーム油のための円卓会議（RSPO）,Round Table of Sustainable Palm Oil
-RTE,インスタント食品,Ready-to-eat foods
+RSPO,持続可能なパーム油のための円卓会議（RSPO）,Round Table on Sustainable Palm Oil
 rulemaking,規則制定,
-Russia’s Federal Service for Veterinary and Phytosanitary Surveillance　（Rosselkhoznadzor）,ロシア連邦動植物検疫監督局,
-Salmonella,"サルモネラ、サNew Era E-Commerce Summit,ルモネラ属菌",
+RUTF,すぐに食べられる栄養治療食,※初出時は英語（ready-to-use therapeutic food）を併記
+Safe Food for Canadians Act,カナダ国民のための食品安全法（SFCA）,
+Safe Food for Canadians Regulations,カナダ国民のための食品安全規則（SFCR）,
+Salmonella,サルモネラ、サルモネラ属菌,
 Salmonella Enteritidis,サルモネラ・エントリティディス,
 salmonellosis,サルモネラ症,
 Sam’s Club,日本語表記はありません,
@@ -683,6 +737,7 @@ Sargento,Sargento社,
 Schwan Food Company,シュワン・フード・カンパニー,冷凍食品を製造
 scientific opinion,科学的意見／科学的意見書,EFSAの見解をまとめたもの
 Scott Pruitt,スコット・プルーイット,EPA長官
+secondary legislation,二次立法（secondary legislation）,
 Secretary of Agriculture,農務長官,
 SEIU,サービス従業員国際組合（SEIU）,
 sell-by date,販売期限,アジアの非英語圏は、適宜内容を確認する
@@ -705,6 +760,7 @@ SIMP,水産物輸入監視制度（SIMP）,Seafood Import Monitoring Program
 Singapore’s Ministry of Health,シンガポール保健省,
 Sioux Honey Association,スー・ハニー・アソシエーション（SHA）,
 slam,激しく非難,
+slaughter,屠畜,文脈では「屠畜」、法律などの名称では「と畜」※正式な和訳・名称を優先する
 Smithfield Foods,スミスフィールド・フーズ,世界最大の豚肉加工会社
 SNA,学校栄養協会（SNA）,
 SNAP,補助的栄養支援プログラム（SNAP）,
@@ -741,7 +797,7 @@ Tereza Cristina,テレザ・クリスチナ,
 Thai Union,タイ・ユニオン,
 THC,テトラヒドロカンナビノール（THC）,
 The Acheson Group,ザ・アチソン・グループ,食品安全コンサルティング会社
-the Consumer Goods Forum,ザ・コンシューマー・グッズ・フォーラム（CGF）,
+the Consumer Goods Forum,コンシューマーグッズフォーラム（CGF）,
 The Standing Committee of the 13th National People’s Congress,中国第13期全国人民代表大会（全人代）常務委員会,食用目的の野生動物取引を禁止
 The US Court of Appeals for the Second Circuit,連邦第二巡回区控訴裁判所,
 Tillamook County Creamery Association,ティラムック郡乳製品製造所協会,オレゴン州の酪農協同組合。虚偽広告訴訟を起こされる
@@ -749,6 +805,7 @@ Tip Top Poultry,日本語表記はありません,鶏肉製品をリコール
 Tolerable Daily Intake,耐容一日摂取量（TDI）,
 tolerable weekly intake,耐容週間摂取量,
 Tom Vilsack,トム・ビルサック,米国のUSDA長官
+toxic element,有毒元素,
 Toxic Equivalency Factor,毒性等価係数（TEF）,
 Toxic Equivalent,毒性等量（TEQ）,
 Toxoplasma gondii,トキソプラズマ,初出時は学名を併記
@@ -757,7 +814,7 @@ Trichinella,旋毛虫,初出時は学名を併記
 TRQ,関税割当制度（TRQ）,
 TTB,アルコール・タバコ税貿易管理局（TTB）,アルコール飲料のラベル表示基準に関する新規則を発行
 Turtle Island Foods,タートル・アイランド・フーズ,トーファーキーを製造
-type 2 diabetes,II型糖尿病 ,
+type 2 diabetes,II型糖尿病,
 Tyson Foods,タイソン・フーズ,
 Tyson Fresh Meats,タイソン・フレッシュ・ミーツ,
 U. S. Food and Drug Administration,米国食品医薬品局（FDA）,
@@ -766,15 +823,17 @@ UECBV,欧州家畜食肉取引業者連盟（UECBV）,
 UEP,米国鶏卵生産者協会（UEP）,
 UFCW,全米食品商業労働組合（UFCW）,
 UK Food Standards Agency,英国食品基準庁（FSA）,
+UK Health Security Agency,英国健康安全保障庁（UKHSA）,
+UKHSA,英国健康安全保障庁,
 unconstitutional,違憲,
 UNEP,国連環境計画（UNEP）,
 UNIDO,国連工業開発機関（UNIDO）,
-Unified Agenda,統一アジェンダ（Unified Agenda）,
+Unified Agenda,統一計画（Unified Agenda）,
 Unilever,ユニリーバ,
 Union list,欧州連合リスト,
 unique facility identifier,固有施設識別名（UFI）,
 United Food and Commercial Workers,全米食品商業労働組合（UFCW）,
-United Fresh,米国生鮮青果物協会(United Fresh Produce Association),
+United Fresh,米国生鮮青果物協会（United Fresh Produce Association）,
 United Fresh Produce Association,米国生鮮青果物協会（United Fresh Produce Association）,
 United Nations Environment Programme,国連環境計画（UNEP）,
 United Nations Industry Development Organization,国連工業開発機関（UNIDO）,
@@ -787,12 +846,12 @@ Ursula von der Leyen,ウルズラ・フォン・デア・ライエン,
 US Cattlemen’s Association,米国肉牛生産者協会（USCA）,
 US Court of Appeals for the Ninth Circuit,連邦第九巡回控訴裁判所,
 US Customs and Border Protection,米国税関国境警備局（CBP）,
-US Dairy Export Council, アメリカ乳製品輸出協会（USDEC）,
+US Dairy Export Council,アメリカ乳製品輸出協会（USDEC）,
 US Department of Commerce,米国商務省（DOC）,
-US Department of Commerce ,米国商務省（DOC）,
 US Office of Special Counsel,米国特別顧問局（OSC）,
 US Patent and Trademark Office,米国特許商標庁（USPTO）,
 US PIRG,米国公共利益調査グループ（US PIRG）,消費者団体
+US-Mexico-Canada Agreement,米国・メキシコ・カナダ協定（USMCA）,
 USA Rice Federation,USAライス連合会,
 USAID,米国国際開発庁（USAID）,
 USCA,米国肉牛生産者協会（USCA）,
@@ -800,7 +859,6 @@ USDA,米国農務省（USDA）,
 use-by date,消費期限,アジアの非英語圏は、適宜内容を確認する
 USHGA,米国ヘンプ生産者協会（USHGA）,
 USMCA,米国・メキシコ・カナダ協定（USMCA）,
-US-Mexico-Canada Agreement,米国・メキシコ・カナダ協定（USMCA）,
 USPTO,米国特許商標局（USPTO）,
 USTR,米国通商代表部（USTR）,
 Vibra Agroindustrial,日本語表記はありません,ブラジルの家禽肉会社
@@ -808,7 +866,7 @@ vinylidene chloride,塩化ビニリデン,
 Vion,日本語表記はありません,オランダの食肉会社
 VQIP,任意適格輸入業者プログラム（VQIP）,
 Wageningen Food Safety Research,ワーヘニンゲン食品安全研究所,
-Walmart ,ウォルマート,
+Walmart,ウォルマート,
 warning letters,警告書,
 Ways and Means,下院歳入委員会,
 WCRF,世界がん研究基金（WCRF）,
@@ -834,20 +892,3 @@ Yiannas,イアナス,
 Yield10 Bioscience,日本語表記はありません,
 zoonosis,人獣共通感染症,
 zoonotic disease,人獣共通感染症,
-slaughter,屠畜,文脈では「屠畜」、法律などの名称では「と畜」※正式な和訳・名称を優先する
-Food and Drugs Act,食品医薬品法,※カナダの法令
-Food and Drug Regulations,食品医薬品規則,※カナダの法令
-Safe Food for Canadians Act,カナダ国民のための食品安全法（SFCA）,
-Safe Food for Canadians Regulations,カナダ国民のための食品安全規則（SFCR）,
-lipid-based nutrient supplement,脂質ベースの栄養サプリメント（LNS),※初出時は英語を併記
-ready-to-use therapeutic food,すぐに食べられる栄養治療食（RUTF),※初出時は英語を併記
-LNS,脂質ベースの栄養サプリメント,※初出時は英語(lipid-based nutrient supplement)を併記
-RUTF,すぐに食べられる栄養治療食,※初出時は英語を併記(ready-to-use therapeutic food)を併記
-European Medicines Agency,欧州医薬品庁（EMA）,
-EMA,欧州医薬品庁（EMA）,※European Medicines Agency
-personalized nutrition,パーソナライズドニュートリション,※初出時は英語（personalized nutrition）を併記
-Department of Health and Social Care,保健社会福祉省（DHSC）,※英国機関
-DHSC,保健社会福祉省（DHSC）,※英国機関のDepartment of Health and Social Care
-due diligence,デューディリジェンス,
-request for information,情報提供依頼（RFI）,※米国FDAの記事に出てきた場合のみ
-RFI,情報提供依頼（RFI),※米国FDAの記事に出てきた場合のみ
