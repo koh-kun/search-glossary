@@ -25,6 +25,46 @@ INSTALLED_MANIFEST = "installed-versions.json"
 
 UNKNOWN_VERSION = "0.0.0"
 
+# Typographic characters that Excel and Word substitute automatically, mapped
+# back to the plain ASCII equivalents people actually type. Applied to both
+# glossary terms and pasted text, so "d’oh!" in the CSV matches "d'oh!" typed
+# by hand — and vice versa.
+#
+# Every mapping MUST be one character to one character. Matching relies on
+# positions in the normalised text lining up with the original, so a mapping
+# that changed the string length (e.g. "…" -> "...") would break it.
+CHARACTER_EQUIVALENTS = {
+    "\u2018": "'",   # ' left single quote
+    "\u2019": "'",   # ' right single quote / typographic apostrophe
+    "\u02bc": "'",   # ʼ modifier letter apostrophe
+    "\u00b4": "'",   # ´ acute accent, sometimes typed as an apostrophe
+    "\uff07": "'",   # ＇ fullwidth apostrophe
+    "\u201c": '"',   # " left double quote
+    "\u201d": '"',   # " right double quote
+    "\uff02": '"',   # ＂ fullwidth quote
+    "\u2010": "-",   # ‐ hyphen
+    "\u2011": "-",   # ‑ non-breaking hyphen
+    "\u2012": "-",   # ‒ figure dash
+    "\u2013": "-",   # – en dash
+    "\u2014": "-",   # — em dash
+    "\u2212": "-",   # − minus sign
+    "\uff0d": "-",   # － fullwidth hyphen-minus
+    "\u00a0": " ",   #   non-breaking space (very common in web copy-paste)
+    "\u2007": " ",   #   figure space
+    "\u202f": " ",   #   narrow non-breaking space
+    "\u3000": " ",   # 　 ideographic space, from Japanese input
+}
+
+# Fullwidth ASCII (Ａ-Ｚ, ａ-ｚ, ０-９, and punctuation) occupies U+FF01-FF5E,
+# mapping one-to-one onto ASCII U+0021-007E. A Japanese IME produces these
+# whenever it's in fullwidth mode, so "ＣＡＰ" typed in Japanese input would
+# otherwise never match "CAP" in the glossary.
+for _code in range(0xFF01, 0xFF5F):
+    CHARACTER_EQUIVALENTS.setdefault(chr(_code), chr(_code - 0xFEE0))
+
+# str.translate wants a dict keyed by code point, which str.maketrans builds.
+_NORMALISE_TABLE = str.maketrans(CHARACTER_EQUIVALENTS)
+
 # Which CSV columns hold the source term and the Japanese translation,
 # for each language. Checked against the CSV header on load.
 TERM_COLUMNS = {
@@ -103,7 +143,7 @@ class GlossaryManager:
                     if not raw_term or not translation:
                         continue
 
-                    key = raw_term.lower()
+                    key = self.normalise(raw_term).lower()
                     if key in glossary["data"]:
                         # Same source term, different translation — e.g. CEH is
                         # both Center for Environmental Health and Centre for
@@ -201,7 +241,7 @@ class GlossaryManager:
         for key, rows in glossary["data"].items():
             raw_term = rows[0].get(term_column, key)
             if self._needs_exact_case(raw_term):
-                case_sensitive.append(raw_term)
+                case_sensitive.append(self.normalise(raw_term))
             else:
                 case_insensitive.append(key)
 
@@ -241,6 +281,20 @@ class GlossaryManager:
     # Lookup
     # ------------------------------------------------------------------
 
+    @staticmethod
+    def normalise(text):
+        """
+        Replace typographic punctuation with ASCII equivalents.
+
+        Excel and Word silently turn ' into ’ and - into –, so a term saved
+        from a spreadsheet often won't match the same word typed or pasted
+        from a web page. Normalising both sides removes the mismatch.
+
+        The result is always the same length as the input, so match positions
+        remain valid against the original text.
+        """
+        return text.translate(_NORMALISE_TABLE)
+
     def find_terms_in_text(self, text):
         """
         Find all glossary terms in the given text.
@@ -254,6 +308,10 @@ class GlossaryManager:
         data = glossary["data"]
         if not text or not data:
             return []
+
+        # Match against the normalised text so that curly and straight
+        # punctuation are treated as the same character.
+        text = self.normalise(text)
 
         hits = []  # (position, key)
         for pattern in (glossary["pattern_ci"], glossary["pattern_cs"]):
@@ -288,7 +346,7 @@ class GlossaryManager:
         Look up a single term. Returns a list of matching rows, or None.
         """
         return self.glossaries[self.current_language]["data"].get(
-            term.strip().lower()
+            self.normalise(term.strip()).lower()
         )
 
     def get_all_terms(self):
