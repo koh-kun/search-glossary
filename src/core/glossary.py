@@ -73,6 +73,10 @@ TERM_COLUMNS = {
     "zh": ("中文", "日本語"),
 }
 
+# How many rows from the top of a CSV to search for the header row.
+# Anything above the header (a title, a note to editors) is skipped.
+HEADER_SEARCH_ROWS = 10
+
 
 class GlossaryManager:
     """Manages multiple glossary files and term lookups."""
@@ -118,19 +122,36 @@ class GlossaryManager:
             with open(file_path, "r", encoding="utf-8-sig", newline="") as csv_file:
                 reader = csv.reader(csv_file)
 
-                try:
-                    header = [h.strip() for h in next(reader)]
-                except StopIteration:
-                    logger.error("CSV file is empty: %s", file_path)
-                    return False
+                # The header isn't always on the first row. The shared
+                # spreadsheets put a title or a note above it, and Excel /
+                # Google Sheets export that row into the CSV too. So look
+                # through the first few rows for the one that contains the
+                # column names we need, and treat everything above it as
+                # decoration to skip.
+                header = None
+                indices = None
+                for row_number, row in enumerate(reader, start=1):
+                    candidate = [h.strip() for h in row]
+                    indices = self._find_term_columns(language_code, candidate)
+                    if indices is not None:
+                        header = candidate
+                        break
+                    if row_number >= HEADER_SEARCH_ROWS:
+                        break
 
-                indices = self._find_term_columns(language_code, header)
-                if indices is None:
+                if header is None:
                     logger.error(
-                        "Invalid glossary format in %s — header was %s",
-                        file_path, header,
+                        "No glossary header (needs columns %s) in the first "
+                        "%d rows of %s",
+                        TERM_COLUMNS[language_code], HEADER_SEARCH_ROWS,
+                        file_path,
                     )
                     return False
+                if row_number > 1:
+                    logger.info(
+                        "%s: header is on row %d; skipped the rows above it",
+                        os.path.basename(file_path), row_number,
+                    )
                 term_idx, translation_idx = indices
 
                 ambiguous = set()
