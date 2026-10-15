@@ -18,8 +18,8 @@ from PySide6.QtWidgets import (
     QTableWidget, QTableWidgetItem, QHeaderView, QMessageBox,
     QFileDialog, QCheckBox
 )
-from PySide6.QtGui import QFont, QClipboard, QColor
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtGui import QFont, QClipboard, QColor, QDesktopServices
+from PySide6.QtCore import Qt, QSize, QUrl
 
 # Import our custom text edit component
 try:
@@ -58,8 +58,8 @@ def is_dark_theme(app):
     """Detect if the system is using a dark theme."""
     return app.palette().color(QPalette.Window).lightness() < 128
 
-# Application version
-APP_VERSION = "1.0.0"
+# Application version — set in src/version.py, nowhere else.
+from version import APP_VERSION
 
 def get_light_stylesheet():
     """Return stylesheet for light theme."""
@@ -568,14 +568,18 @@ class MainWindow(QMainWindow):
         reply = QMessageBox.question(
             self,
             "アプリのアップデート",
-            "アプリのアップデートがあります。今すぐアプリをアップデートしますか？",
+            f"新しいバージョン（v{update_info['version']}）があります。\n"
+            f"現在のバージョン: v{APP_VERSION}\n\n"
+            "ダウンロードページを開きますか？",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.Yes
         )
-        
+
         if reply == QMessageBox.Yes:
-            # TODO: Implement app update download/install
-            QMessageBox.information(self, "アップデート", "アプリのアップデート機能は開発中です。")
+            # Automatic install isn't built yet (goal #4), so send the
+            # tester to the GitHub release page in their web browser,
+            # where the zip for their OS is waiting.
+            QDesktopServices.openUrl(QUrl(update_info["url"]))
 
 def main():
     """Application entry point."""

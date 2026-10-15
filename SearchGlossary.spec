@@ -16,6 +16,12 @@ from pathlib import Path
 # SPECPATH is the folder holding this .spec file — the repo root.
 REPO_ROOT = Path(SPECPATH)
 
+# The app version lives in src/version.py and nowhere else. Run that file
+# and pull APP_VERSION out of it, so the build always matches the app.
+_version_vars = {}
+exec((REPO_ROOT / "src" / "version.py").read_text(encoding="utf-8"), _version_vars)
+APP_VERSION = _version_vars["APP_VERSION"]
+
 # Files that must ship alongside the app. Each entry is
 # (path on the build machine, folder name inside the bundle).
 # At runtime these land in sys._MEIPASS, which main.py already knows
@@ -96,6 +102,7 @@ if sys.platform == "darwin":
         bundle_identifier="com.kohkun.searchglossary",
         info_plist={
             "NSHighResolutionCapable": True,
-            "CFBundleShortVersionString": "1.0.0",
+            "CFBundleShortVersionString": APP_VERSION,
+            "CFBundleVersion": APP_VERSION,
         },
     )

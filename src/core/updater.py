@@ -4,6 +4,7 @@ Handles checking and downloading app and CSV updates from GitHub
 """
 
 import os
+import re
 import json
 import requests
 from pathlib import Path
@@ -18,29 +19,46 @@ class UpdateManager:
     """Manages checking for and applying updates."""
     
     def _version_to_tuple(self, version: str) -> tuple:
-        """Convert version string to tuple for comparison (e.g., '1.0.0' -> (1, 0, 0))"""
-        try:
-            return tuple(map(int, version.split('.')))
-        except:
-            return (0, 0, 0)  # Fallback for invalid versions
+        """
+        Turn a version into numbers so versions can be compared:
+        '1.0.2' -> (1, 0, 2). Ignores a leading 'v' and anything after the
+        three numbers, so old tags like 'v1.0.1-test' still read as (1, 0, 1).
+        """
+        match = re.match(r"v?(\d+)\.(\d+)\.(\d+)", str(version))
+        if not match:
+            return (0, 0, 0)  # unreadable — treat as older than anything
+        return tuple(int(n) for n in match.groups())
 
     def check_for_app_update(self) -> Tuple[bool, Optional[Dict]]:
-        """Check if a new app version is available."""
+        """
+        Check whether GitHub has a newer release than the running app.
+
+        GitHub's ".../releases/latest" page redirects to the newest release,
+        e.g. ".../releases/tag/v1.0.2". We read where it points without
+        following it. That means there's no version file to keep in sync,
+        and only releases that actually finished building are reported.
+
+        Returns (True, {"version": "1.0.2", "url": <release page>}) if a
+        newer release exists, otherwise (False, None).
+        """
         try:
-            response = requests.get(self.app_update_url, timeout=10)
-            response.raise_for_status()
-            
-            latest_info = response.json()
-            latest_version = latest_info.get("version")
-            
-            # Semantic version comparison - only update if newer
-            current_tuple = self._version_to_tuple(self.current_version)
-            latest_tuple = self._version_to_tuple(latest_version)
-            
-            update_available = latest_tuple > current_tuple
-            
-            return update_available, latest_info if update_available else None
-            
+            response = requests.head(
+                self.app_update_url, allow_redirects=False, timeout=10
+            )
+            release_url = response.headers.get("Location", "")
+            if "/releases/tag/" not in release_url:
+                # No releases yet, or GitHub answered unexpectedly.
+                # Not worth bothering the user about.
+                logger.warning("No latest release found at %s", self.app_update_url)
+                return False, None
+
+            latest_tag = release_url.rsplit("/", 1)[-1]   # e.g. "v1.0.2"
+            latest_version = latest_tag.lstrip("vV")
+
+            if self._version_to_tuple(latest_version) > self._version_to_tuple(self.current_version):
+                return True, {"version": latest_version, "url": release_url}
+            return False, None
+
         except Exception as e:
             logger.error(f"Failed to check for app updates: {str(e)}")
             return False, None
@@ -97,7 +115,7 @@ class UpdateManager:
         self.current_version = current_version
         
         # GitHub URLs for update checking
-        self.app_update_url = "https://raw.githubusercontent.com/koh-kun/search-glossary/main/releases/latest.json"
+        self.app_update_url = "https://github.com/koh-kun/search-glossary/releases/latest"
         self.csv_update_url = "https://raw.githubusercontent.com/koh-kun/search-glossary/main/glossaries/glossary-versions.json"
         
         # Set up user data directory for persistent CSV storage

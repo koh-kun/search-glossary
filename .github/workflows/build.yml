@@ -1,18 +1,65 @@
-name: Build Application
+name: Build and Release
+
+# HOW RELEASES WORK
+#   Change APP_VERSION in src/version.py, commit, push to main. That's all.
+#   This workflow sees the version changed, builds Windows/macOS/Linux, and
+#   publishes them as GitHub release v<version> (creating the tag for you).
+#
+#   Pushes that don't touch src/version.py don't trigger a build, so normal
+#   commits and glossary edits never produce a release by accident.
+#
+#   You can also run it by hand from the Actions tab ("Run workflow"). If the
+#   version is new it releases; if it already exists it just builds, and the
+#   zips appear on that run's page for testing.
 
 on:
   push:
-    tags:
-      - 'v*'            # e.g. git tag v1.0.1 && git push --tags
-  workflow_dispatch:    # or run manually from the Actions tab
+    branches: [main]
+    paths: ['src/version.py']
+  workflow_dispatch:
 
 permissions:
-  contents: write       # needed so the release step can upload files
+  contents: write       # needed to create the release and its tag
 
 jobs:
+  version:
+    name: Read version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read.outputs.version }}
+      is_new: ${{ steps.check.outputs.is_new }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Read APP_VERSION from src/version.py
+        id: read
+        run: |
+          VERSION=$(python3 -c "import sys; sys.path.insert(0, 'src'); from version import APP_VERSION; print(APP_VERSION)")
+          # Insist on plain X.Y.Z so tags and the app's update check stay clean.
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::APP_VERSION must look like 1.2.3, got '$VERSION'"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "App version: $VERSION"
+
+      - name: Has this version been released already?
+        id: check
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/v${{ steps.read.outputs.version }}" > /dev/null; then
+            echo "is_new=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::v${{ steps.read.outputs.version }} already exists. Bump APP_VERSION to publish a new release."
+          else
+            echo "is_new=true" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     name: Build (${{ matrix.label }})
+    needs: version
+    if: needs.version.outputs.is_new == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ${{ matrix.os }}
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
     strategy:
       fail-fast: false          # one OS failing shouldn't cancel the others
       matrix:
@@ -25,66 +72,68 @@ jobs:
             label: Linux
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Build with PyInstaller
         run: pyinstaller --noconfirm --clean SearchGlossary.spec
 
       # Zipping differs per OS: PowerShell on Windows, and macOS needs
       # ditto rather than zip to preserve the symlinks inside a .app.
+      # The version goes in the file name so testers can tell zips apart.
       - name: Package (Windows)
         if: runner.os == 'Windows'
         run: |
           cd dist
-          Compress-Archive -Path SearchGlossary -DestinationPath SearchGlossary-Windows.zip
+          Compress-Archive -Path SearchGlossary -DestinationPath "SearchGlossary-$env:VERSION-Windows.zip"
 
       - name: Package (macOS)
         if: runner.os == 'macOS'
         run: |
           cd dist
-          ditto -c -k --keepParent SearchGlossary.app SearchGlossary-macOS.zip
+          ditto -c -k --keepParent SearchGlossary.app "SearchGlossary-$VERSION-macOS.zip"
 
       - name: Package (Linux)
         if: runner.os == 'Linux'
         run: |
           cd dist
-          tar czf SearchGlossary-Linux.tar.gz SearchGlossary
+          tar czf "SearchGlossary-$VERSION-Linux.tar.gz" SearchGlossary
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: build-${{ matrix.label }}
           path: |
-            dist/SearchGlossary-Windows.zip
-            dist/SearchGlossary-macOS.zip
-            dist/SearchGlossary-Linux.tar.gz
+            dist/SearchGlossary-*.zip
+            dist/SearchGlossary-*.tar.gz
           if-no-files-found: error
 
   release:
-    needs: build
+    name: Publish release
+    needs: [version, build]
+    if: needs.version.outputs.is_new == 'true'
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
           merge-multiple: true      # flatten into one folder
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      - name: Create release and tag
+        uses: softprops/action-gh-release@v3
         with:
+          tag_name: v${{ needs.version.outputs.version }}
+          target_commitish: ${{ github.sha }}   # tag the exact commit that was built
+          name: SearchGlossary v${{ needs.version.outputs.version }}
           files: artifacts/*
-          name: Release ${{ github.ref_name }}
           generate_release_notes: true
